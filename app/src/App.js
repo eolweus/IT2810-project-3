@@ -7,6 +7,10 @@ class App extends Component{
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const song = this.song.value;
+    this.props.SongStore.addSong(song);
+    //empty input field in order to enable adding more songs
+    this.song.value = "";
   }
 
   render() {
@@ -14,12 +18,21 @@ class App extends Component{
 
     return (
         <div className="App">
+
           <h2>You have {SongStore.songCount} songs in your playlist.</h2>
 
-          <form onSubmit={e => handleSubmit(e)}>
-            <input type="text" placeholder="Enter song title:" ref={input => this.song = input}/>
+          <form onSubmit={e => this.handleSubmit(e)}>
+            <input type="text" placeholder="Enter song title" ref={input => this.song = input}/>
             <button>Add Song</button>
           </form>
+
+          <ul>
+            {SongStore.songs.map(song => (
+                <li key={song}>
+                  {song}
+                </li>
+            ))}
+          </ul>
         </div>
     );
   }
