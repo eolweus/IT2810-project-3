@@ -45,6 +45,10 @@ function addSpotifyApiDataToJSON(url) {
         setTimeout(()=> reject("Soemthing went wrong"), 10000)
     });
 }
+function addTracksToFile(tracks){
+    data = tracks.map((track)=> JSON.stringify(track));
+    fs.writeFile('tracks.json', '[' + data.toString() + ']', 'utf8', ()=>console.log('Files added'));
+}
 
 
-addSpotifyApiDataToJSON(playlistIdToUrl(playlistID)).then(()=>console.log(tracks));
+addSpotifyApiDataToJSON(playlistIdToUrl(playlistID)).then(()=>addTracksToFile(tracks));
