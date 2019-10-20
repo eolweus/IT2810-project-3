@@ -1,7 +1,7 @@
 const https = require('https');
 const fs = require('fs');
 /*Might get duplicates but elasticsearch will handle that*/
-let bearerToken = 'BQBU7AJDSRPKuhm-qk0t7Tun09PaaVDcVnOZM2Z-JNCGmjCedJNljz7MOseCIbFicplhl2BiQJXZAx8H5NA'; //Access token from spotify
+let bearerToken = 'BQBU7AJDSRPKuhm-qk0t7Tun09PaaVDcVnOZM2Z-JNCGmjCedJNljz7MOseCIbFicplhl2BiQJXZAx8H5NA'; //Access token from spotify, will expire
 
 let playlistID = ['0CM1P4PqJKNu5CiJWQNBWV', '37i9dQZEVXbJvfa0Yxg7E7', '37i9dQZF1DX5EkyRFIV92g', '37i9dQZF1DXcGnc6d1f20P', '37i9dQZF1DWYgE24f8i7FU'];
 let options = {
@@ -42,7 +42,7 @@ function addSpotifyApiDataToJSON(url) {
                 resolve("Success")
             });
         });
-        setTimeout(()=> reject("Soemthing went wrong"), 10000)
+        setTimeout(()=> reject("Something went wrong"), 10000)
     });
 }
 function addTracksToFile(tracks){
@@ -55,7 +55,7 @@ function addListOfPlaylists(playlists, tracklist){
     playlists.forEach((playlistID)=>{
         let playlistUrl = playlistIdToUrl(playlistID);
         addSpotifyApiDataToJSON(playlistUrl);
-    })
+    });
     setTimeout(() => addTracksToFile(tracklist), 7000);
 
 
