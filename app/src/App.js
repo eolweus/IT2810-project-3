@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import {inject, observer} from "mobx-react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+@inject("SongStore")
+@observer
+class App extends Component{
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
+  render() {
+    const {SongStore} = this.props;
+
+    return (
+        <div className="App">
+          <h2>You have {SongStore.songCount} songs in your playlist.</h2>
+
+          <form onSubmit={e => handleSubmit(e)}>
+            <input type="text" placeholder="Enter song title:" ref={input => this.song = input}/>
+            <button>Add Song</button>
+          </form>
+        </div>
+    );
+  }
 }
 
 export default App;
