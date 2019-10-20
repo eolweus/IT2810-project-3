@@ -1,9 +1,9 @@
 const https = require('https');
 const fs = require('fs');
-
+/*Might get duplicates but elasticsearch will handle that*/
 let bearerToken = 'BQBU7AJDSRPKuhm-qk0t7Tun09PaaVDcVnOZM2Z-JNCGmjCedJNljz7MOseCIbFicplhl2BiQJXZAx8H5NA'; //Access token from spotify
 
-let playlistID = '0CM1P4PqJKNu5CiJWQNBWV'; //TODO make list of playlists
+let playlistID = ['0CM1P4PqJKNu5CiJWQNBWV', '37i9dQZEVXbJvfa0Yxg7E7', '37i9dQZF1DX5EkyRFIV92g', '37i9dQZF1DXcGnc6d1f20P', '37i9dQZF1DWYgE24f8i7FU'];
 let options = {
     method: 'GET',
     headers: {
@@ -12,7 +12,7 @@ let options = {
     },
     json: true
 };
-let tracks = [];
+let tracklist = [];
 
 function playlistIdToUrl(playlistID) {
     return 'https://api.spotify.com/v1/playlists/' + playlistID + '/tracks';
@@ -32,7 +32,7 @@ function addSpotifyApiDataToJSON(url) {
                 json.items.forEach((track) =>
                 {
                     if(track.is_local === false){ //IsLocal means not available on spotify servers
-                    tracks.push(track.track)}
+                    tracklist.push(track.track)}
                 }
 
                 );
@@ -47,8 +47,18 @@ function addSpotifyApiDataToJSON(url) {
 }
 function addTracksToFile(tracks){
     data = tracks.map((track)=> JSON.stringify(track));
-    fs.writeFile('tracks.json', '[' + data.toString() + ']', 'utf8', ()=>console.log('Files added'));
+    fs.writeFile('tracks.json', '[' + data.toString() + ']', 'utf8', ()=>console.log('files written to json'));
 }
 
+function addListOfPlaylists(playlists, tracklist){
 
-addSpotifyApiDataToJSON(playlistIdToUrl(playlistID)).then(()=>addTracksToFile(tracks));
+    playlists.forEach((playlistID)=>{
+        let playlistUrl = playlistIdToUrl(playlistID);
+        addSpotifyApiDataToJSON(playlistUrl);
+    })
+    setTimeout(() => addTracksToFile(tracklist), 7000);
+
+
+}
+
+addListOfPlaylists(playlistID, tracklist);
