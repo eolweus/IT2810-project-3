@@ -6,9 +6,9 @@ import {Container, CssBaseline, Typography, Paper, AppBar, ListItem, List, Outli
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#a7c0cd',
-      main: '#78909C',
-      dark: '#4b636e',
+      light: '#8eacbc',
+      main: '#607d8c',
+      dark: '#34515f',
       contrastText: '#fff',
     },
     secondary: {
