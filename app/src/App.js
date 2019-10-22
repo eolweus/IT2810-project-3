@@ -92,18 +92,19 @@ class App extends Component{
                 <Typography variant="h3" className={classes.title} align="center">
                   Mind Blowing Playlist Display
                 </Typography>
+                <Typography component="p" align="center">
+                  brought to you by Group 67
+                </Typography>
               </AppBar>
               <Paper className={classes.container} align="center">
-                <Typography component="div" className="input-container">
+                <Typography component="div" className="input-container" >
                   <TextField label="Filter" className="filter" value={SongStore.filter} onChange={this.filter.bind(this)} margin="dense" variant="outlined"/>
                   <form className="song-form" onSubmit={e => this.handleSubmit(e)}>
                     <OutlinedInput type="text" placeholder="Enter song title" variant="outlined" margin="dense" inputRef={input => this.song = input}/>
-                    <Button variant="contained" color={theme.palette.secondary.main} size="small" onClick={e => this.handleSubmit(e)}>Add Song</Button>
+                    <Button variant="contained" style={{backgroundColor: theme.palette.secondary.main}} size="medium" onClick={e => this.handleSubmit(e)}>Add Song</Button>
                   </form>
                 </Typography>
-              </Paper>
-              <Paper className={classes.container} align="center" >
-                <div className="data-container">
+                <Typography className="data-container">
                   <Typography variant="h4" className={classes.subtitle} paragraph={true}>
                     You have {SongStore.songCount} songs in your playlist.
                   </Typography>
@@ -116,7 +117,7 @@ class App extends Component{
                       ))}
                     </List>
                   </Typography>
-                </div>
+                </Typography>
               </Paper>
             </Typography>
           </Container>
