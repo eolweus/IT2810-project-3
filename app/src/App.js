@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {inject, observer} from "mobx-react";
 import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
-import {Container, CssBaseline, Typography, Paper, AppBar, ListItem, List, OutlinedInput, TextField, Button} from "@material-ui/core";
+import {Container, Grid, CssBaseline, Typography, Paper, AppBar, ListItem, List, OutlinedInput, TextField, Button} from "@material-ui/core";
+import InfinityList from "./components/InfinityList";
 
 const theme = createMuiTheme({
   palette: {
@@ -25,18 +26,21 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
   },
   appBar: {
-    paddingTop: theme.spacing(1)
-  },
+    paddingTop: theme.spacing(1),
+    flexGrow: 1  },
   title: {
     flexGrow: 1,
-    text: theme.palette.primary.contrastText,
+    color: theme.palette.primary.contrastText,
   },
   subtitle: {
-
+    flexGrow: 1
+  },
+  footnote: {
+    fontsize: 8,
+    color: theme.palette.primary.light
   },
   container: {
     padding: theme.spacing(3, 2),
-
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -86,17 +90,42 @@ class App extends Component{
                      justifyContent="center"
                      justifyItems="center"
           >
-            <Typography component="div" style={{ backgroundColor: theme.palette.primary.light, height: '100vh' }}
+            <Typography component="div" style={{ backgroundColor: theme.palette.primary.light, minHeight: '100vh'}}
                         >
               <AppBar position="static" style={{backgroundColor: theme.palette.primary.dark, height: '8vh'}}>
                 <Typography variant="h3" className={classes.title} align="center">
                   Mind Blowing Playlist Display
                 </Typography>
-                <Typography component="p" align="center">
+                <Typography variant="subtitle2" align="center">
                   brought to you by Group 67
                 </Typography>
               </AppBar>
-              <Paper className={classes.container} align="center">
+
+              <Paper className={classes.container} elevation={-10}>
+                <Typography className="endless-list" paragraph={true} align="center">
+                  <Typography variant="h4" className={classes.subtitle}>
+                    Amazing list of Infinity*
+                  </Typography>
+                  <Typography className={classes.footnote} variant="subttle2">
+                    *not actually infinite
+                  </Typography>
+                  <Grid item md={12}
+                    container
+                    alignContent="center"
+                    alignItems="center"
+                    justify="center"
+                  >
+                    <Paper elevation={10}>
+                      <Typography className={classes.container}>
+                        <InfinityList/>
+                      </Typography>
+                    </Paper>
+                  </Grid>
+                </Typography>
+
+              </Paper>
+
+              <Paper className={classes.container} align="center" elevation={12}>
                 <Typography component="div" className="input-container" >
                   <TextField label="Filter" className="filter" value={SongStore.filter} onChange={this.filter.bind(this)} margin="dense" variant="outlined"/>
                   <form className="song-form" onSubmit={e => this.handleSubmit(e)}>
