@@ -3,7 +3,7 @@ const fs = require('fs');
 /*Might get duplicates but elasticsearch will handle that*/
 let bearerToken = 'BQBU7AJDSRPKuhm-qk0t7Tun09PaaVDcVnOZM2Z-JNCGmjCedJNljz7MOseCIbFicplhl2BiQJXZAx8H5NA'; //Access token from spotify, will expire
 
-let playlistID = ['0CM1P4PqJKNu5CiJWQNBWV', '37i9dQZEVXbJvfa0Yxg7E7', '37i9dQZF1DX5EkyRFIV92g', '37i9dQZF1DXcGnc6d1f20P', '37i9dQZF1DWYgE24f8i7FU'];
+let playlistID = ['0CM1P4PqJKNu5CiJWQNBWV', '37i9dQZEVXbJvfa0Yxg7E7', '37i9dQZF1DX5EkyRFIV92g', '37i9dQZF1DXcGnc6d1f20P', '37i9dQZF1DWYgE24f8i7FU', '5VkzteknVo43GAQysSIR5u', '6VDDPVmPctk85SqVl1y8jT'];
 let options = {
     method: 'GET',
     headers: {
