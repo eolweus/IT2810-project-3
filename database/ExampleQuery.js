@@ -27,7 +27,7 @@ function searchExample(userInput, pageSize, fromElement) {
 /*
     *@Param {String} userInput - string with the search input
     *@Param {String} sortBy - string describing what to sort some valid inputs are 'popularity', 'album.total_tracks'
-    *,'album.release_date', 'duration_ms' */
+    *,'album.release_date', 'duration_ms', 'name.keyword', 'album.name.keyword' */
 function searchExampleWithSorting(userInput, pageSize, fromElement, sortBy, sortAsc) {
     let searchObject = {
         index: 'tracks',
@@ -58,11 +58,9 @@ function searchExampleWithSorting(userInput, pageSize, fromElement, sortBy, sort
 /*searchExample("this is america", 10, 0).then((result) => {
     console.log(result.body.hits.hits)
 });*/
-searchExampleWithSorting("this is america", 10, 0, 'duration_ms', true).then((result) => {
+/*searchExampleWithSorting("this is america", 10, 0, 'album.name.keyword', true).then((result) => {
     console.log(result.body.hits.hits)
+});*/
+searchExampleWithSorting("this is america", 20, 0, 'album.name.keyword', true).then((result) => {
+    result.body.hits.hits.forEach((track) => console.log(track._source.album.name))
 });
-/*
-searchExampleWithSorting("this is america", 40, 0, 'album.release_date', false).then((result) => {
-    result.body.hits.hits.forEach((track) => console.log(track._source.album))
-});
-*/
