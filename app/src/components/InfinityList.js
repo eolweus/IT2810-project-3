@@ -26,13 +26,13 @@ function createData(name, artist, album, duration, rating) {
 }
 
 const rows = [
-    createData('Ja Vi Elsker', "Bjørnstjerne Bjørnson", "N/A", 2, 1000),
-    createData('Vi Ska Fæst', "DDE", "Rai-Rai", 2, 1000),
-    createData('E6', "DDE", "Rai-Rai", 2, 1000),
-    createData('Ja Vi Elsker', "Bjørnstjerne Bjørnson", "N/A", 2, 1000),
-    createData('Ja Vi Elsker', "Bjørnstjerne Bjørnson", "N/A", 2, 1000),
-    createData('Ja Vi Elsker', "Bjørnstjerne Bjørnson", "N/A", 2, 1000),
-    createData('Ja Vi Elsker', "Bjørnstjerne Bjørnson", "N/A", 2, 1000),
+    createData('Ja Vi Elsker', "Bjørnstjerne Bjørnson", "N/A", 2, 32),
+    createData('Vi Ska Fæst', "DDE", "Rai-Rai", 5.90, 5),
+    createData('E6', "DDE", "Rai-Rai", 6, 7),
+    createData('Dovregubbens Hall', "Edvard Grieg", "N/A", 8, 45),
+    createData('Nu Klinger', "Frode Rinnan", "Cassa Rossa", 4, 100),
+    createData('Raske Briller', "Nicolay Ramm", "Raske Briller", 2, 10),
+    createData('Sound of Silence', "Pentatonix", "Sounds of Silence", 8, 7),
 
 ];
 
@@ -61,7 +61,7 @@ function getSorting(order, orderBy) {
 }
 
 const headCells = [
-    { id: 'name', numeric: false, disablePadding: true, label: 'Title' },
+    { id: 'name', numeric: false, disablePadding: false, label: 'Title' },
     { id: 'artist', numeric: false, disablePadding: false, label: 'Artist' },
     { id: 'album', numeric: false, disablePadding: false, label: 'Album' },
     { id: 'duration', numeric: true, disablePadding: false, label: 'Duration' },
@@ -69,7 +69,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-    const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+    const { classes, order, orderBy, rowCount, onRequestSort } = props;
     const createSortHandler = property => event => {
         onRequestSort(event, property);
     };
@@ -77,8 +77,6 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                <TableCell>
-                </TableCell>
                 {headCells.map(headCell => (
                     <TableCell
                         key={headCell.id}
@@ -107,9 +105,7 @@ function EnhancedTableHead(props) {
 
 EnhancedTableHead.propTypes = {
     classes: PropTypes.object.isRequired,
-    numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
@@ -171,9 +167,7 @@ export default function EnhancedTable() {
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('title');
-    const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const handleRequestSort = (event, property) => {
@@ -206,7 +200,6 @@ export default function EnhancedTable() {
                     >
                         <EnhancedTableHead
                             classes={classes}
-                            numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
