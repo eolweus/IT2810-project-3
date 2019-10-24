@@ -6,12 +6,13 @@ class Queries {
     constructor() {
 
     }
-    getById(trackId){
-      return client.get({
-          index : 'tracks',
-          id : trackId,
-          type: "_doc"
-      });
+
+    getById(trackId) {
+        return client.get({
+            index: 'tracks',
+            id: trackId,
+            type: "_doc"
+        });
     }
 
     search(userInput, pageSize, fromElement) {
@@ -37,6 +38,7 @@ class Queries {
             }
         });
     }
+
     /*
         *@Param {String} userInput - string with the search input
         *@Param {String} sortBy - string describing what to sort some valid inputs are 'popularity', 'album.total_tracks'
@@ -70,22 +72,24 @@ class Queries {
 
     addRating(score, trackId) {
         return client.update({
-            'index' : 'tracks',
-            "id" : trackId,
+            'index': 'tracks',
+            "id": trackId,
             'type': '_doc',
-            'body':{
-            "script" : {
-                "source":
-                    "ctx._source.total_user_reviews += 1; ctx._source.cumulated_user_review_score += params.review_score",
-                "lang": "painless",
-                "params" : {
-                    "review_score" : score
+            'body': {
+                "script": {
+                    "source":
+                        "ctx._source.total_user_reviews += 1; ctx._source.cumulated_user_review_score += params.review_score",
+                    "lang": "painless",
+                    "params": {
+                        "review_score": score
+                    }
                 }
-            }}
+            }
         })
 
     }
 }
+
 module.exports = Queries;
 
 /*searchExample("this is america", 10, 0).then((result) => {

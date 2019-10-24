@@ -7,16 +7,17 @@ const express = require('express');
 console.log(queries);
 const app = express();
 
-
 // Load songs from database
-app.get('/api/tracks/:trackId', (req, res)=>{
-  queries.getById(req.params.trackId).then((result)=> res.json(result)).catch((error) => {
-      console.log(error);
-      res.send(error)
-  });
+app.get('/api/tracks/:trackId', (req, res) => {
+    queries.getById(req.params.trackId).then((result) => res.json(result)).catch((error) => {
+        console.log(error);
+        res.send(error)
+    });
 });
+
+
 app.get('/api/tracks', (req, res) => {
-    const baseUrl = req.baseUrl;
+    console.log(req);
     const searchString = req.query.searchString;
     const limit = (req.query.limit === undefined ? 20 : req.query.limit);
     const offset = (req.query.offset === undefined ? 0 : req.query.offset);
@@ -51,9 +52,9 @@ app.post('/api/tracks/:trackId', (req, res) => {
     const trackId = req.params.trackId;
     const score = req.query.score;
     console.log("baseUrl" + req.baseUrl);
-    queries.addRating(score, trackId).then((result)=> res.json(result)).catch((error)=> {
-      console.error(error);
-      res.send(error)
+    queries.addRating(score, trackId).then((result) => res.json(result)).catch((error) => {
+        console.error(error);
+        res.send(error)
     });
 
 });
