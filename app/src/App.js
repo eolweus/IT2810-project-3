@@ -3,6 +3,7 @@ import {inject, observer} from "mobx-react";
 import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import {Container, Grid, CssBaseline, Typography, Paper, AppBar, ListItem, List, OutlinedInput, TextField, Button} from "@material-ui/core";
 import InfinityList from "./components/InfinityList";
+import WordCloud from "./components/WordCloud";
 
 const theme = createMuiTheme({
   palette: {
@@ -40,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.primary.light
   },
   container: {
-    padding: theme.spacing(3, 2),
+    padding: theme.spacing(3, 2)
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -90,8 +91,7 @@ class App extends Component{
                      justifyContent="center"
                      justifyItems="center"
           >
-            <Typography component="div" style={{ backgroundColor: theme.palette.primary.light, minHeight: '100vh'}}
-                        >
+            <Typography component="div" style={{ backgroundColor: theme.palette.primary.light, minHeight: '100vh'}}>
               <AppBar position="static" style={{backgroundColor: theme.palette.primary.dark, height: '8vh'}}>
                 <Typography variant="h3" className={classes.title} align="center">
                   Mind Blowing Playlist Display
@@ -107,7 +107,7 @@ class App extends Component{
                     Amazing list of Infinity*
                   </Typography>
                   <Typography className={classes.footnote} variant="subttle2">
-                    *not actually infinite
+                    *not actually infinite at all
                   </Typography>
                   <Grid item md={12}
                     container
@@ -121,6 +121,18 @@ class App extends Component{
                       </Typography>
                     </Paper>
                   </Grid>
+                </Typography>
+
+              </Paper>
+
+              <Paper className={classes.container} elevation={12}>
+                <Typography className="word-cloud" paragraph={true} align="center">
+                  <Typography variant="h4" className={classes.subtitle}>
+                    Amazingly Advanced Viewing Experience
+                  </Typography>
+                  <Typography className={classes.container}>
+                    <WordCloud/>
+                  </Typography>
                 </Typography>
 
               </Paper>
