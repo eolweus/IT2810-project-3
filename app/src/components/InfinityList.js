@@ -190,6 +190,15 @@ export default function EnhancedTable() {
         setPage(0);
     };
 
+    const handleChangeRating = (e) => {
+        try {
+            rows[e.target.id].rating = e.target.value;
+        } catch (e) {
+
+        }
+
+    }
+
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
@@ -223,8 +232,10 @@ export default function EnhancedTable() {
                                             <TableCell align="left">{row.artist}</TableCell>
                                             <TableCell align="left">{row.album}</TableCell>
                                             <TableCell align="right">{row.duration}</TableCell>
-                                            <TableCell align="right">
-                                                <Rating name="rating" value={row.rating} precision={0.5}/>
+                                            <TableCell align="right" id={index}>
+                                                <Rating name="rating" value={row.rating} precision={0.5} size="small"
+                                                        onChange={e => handleChangeRating(e)}
+                                                />
                                             </TableCell>
                                         </TableRow>
                                     );
