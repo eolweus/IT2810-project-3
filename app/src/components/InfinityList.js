@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import {createMuiTheme, lighten, makeStyles} from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TableSortLabel, Toolbar, Typography, Paper, IconButton, Tooltip, FormControlLabel, Switch } from '@material-ui/core';
 import React from "react";
+import Rating from '@material-ui/lab/Rating';
 
 const theme = createMuiTheme({
     palette: {
@@ -26,13 +27,13 @@ function createData(name, artist, album, duration, rating) {
 }
 
 const rows = [
-    createData('Ja Vi Elsker', "Bjørnstjerne Bjørnson", "N/A", 2, 32),
+    createData('Ja Vi Elsker', "Bjørnstjerne Bjørnson", "N/A", 2, 1),
     createData('Vi Ska Fæst', "DDE", "Rai-Rai", 5.90, 5),
-    createData('E6', "DDE", "Rai-Rai", 6, 7),
-    createData('Dovregubbens Hall', "Edvard Grieg", "N/A", 8, 45),
-    createData('Nu Klinger', "Frode Rinnan", "Cassa Rossa", 4, 100),
-    createData('Raske Briller', "Nicolay Ramm", "Raske Briller", 2, 10),
-    createData('Sound of Silence', "Pentatonix", "Sounds of Silence", 8, 7),
+    createData('E6', "DDE", "Rai-Rai", 6, 3),
+    createData('Dovregubbens Hall', "Edvard Grieg", "N/A", 8, 1),
+    createData('Nu Klinger', "Frode Rinnan", "Cassa Rossa", 4, 2),
+    createData('Raske Briller', "Nicolay Ramm", "Raske Briller", 2, 4),
+    createData('Sound of Silence', "Pentatonix", "Sounds of Silence", 8, 3),
 
 ];
 
@@ -222,7 +223,9 @@ export default function EnhancedTable() {
                                             <TableCell align="left">{row.artist}</TableCell>
                                             <TableCell align="left">{row.album}</TableCell>
                                             <TableCell align="right">{row.duration}</TableCell>
-                                            <TableCell align="right">{row.rating}</TableCell>
+                                            <TableCell align="right">
+                                                <Rating name="rating" value={row.rating} precision={0.5}/>
+                                            </TableCell>
                                         </TableRow>
                                     );
                                 })}
