@@ -50,8 +50,11 @@ app.get('/api/tracks', (req, res) => {
 // Update rating of a song
 app.post('/api/tracks/:trackId', (req, res) => {
     const trackId = req.params.trackId;
-    const score = req.query.score;
-    console.log("baseUrl" + req.baseUrl);
+    const score = parseInt(req.query.score);
+    if(!(score>=1 && score <=5)){
+        res.status(400);
+        res.send("score query param is required and must be in range 1 and 5");
+    }
     queries.addRating(score, trackId).then((result) => res.json(result)).catch((error) => {
         console.error(error);
         res.send(error)
