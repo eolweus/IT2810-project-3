@@ -9,23 +9,24 @@ class WordCloud extends Component {
                 <TagCloud
                     className='tag-cloud'
                     style={{
-                        fontFamily: 'sans-serif',
                         fontSize: () => Math.round(Math.random() * 50) + 16,
                         color: () => randomColor({
-                            hue: 'blue'
+                            hue: 'red'
                         }),
                         padding: 5,
+                        height: '100%',
+                        width: '100%'
                     }}>
-                    <div>Futurama</div>
-                    <div >Transformers</div>
-                    <div >Simpsons</div>
-                    <div >Dragon Ball</div>
-                    <div >Rick & Morty</div>
-                    <div >He man</div>
-                    <div >World trigger</div>
-                    <div >Avengers</div>
-                    <div >Family Guy</div>
-                    <div >American Dad</div>
+                    <div>why</div>
+                    <div>wont</div>
+                    <div>this</div>
+                    <div>work</div>
+                    <div>instead</div>
+                    <div>of</div>
+                    <div>passing</div>
+                    <div>empty</div>
+                    <div>div</div>
+                    <div>elements</div>
                 </TagCloud>
             </div>
         );

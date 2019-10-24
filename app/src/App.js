@@ -104,10 +104,10 @@ class App extends Component{
               <Paper className={classes.container} elevation={-10}>
                 <Typography className="endless-list" paragraph={true} align="center">
                   <Typography variant="h4" className={classes.subtitle}>
-                    Amazing list of Infinity*
+                    Incredibly Informative list of Infinity*
                   </Typography>
                   <Typography className={classes.footnote} variant="subttle2">
-                    *not actually infinite at all
+                    *not actually infinite, or that informative, at all
                   </Typography>
                   <Grid item md={12}
                     container
