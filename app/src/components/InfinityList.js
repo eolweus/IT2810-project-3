@@ -75,26 +75,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-@inject("SongStore")
+
+@inject("SongStore", "ListStore")
 @observer
 class InfinityList extends Component {
 
-    componentDidMount() {
-        this.props.SongStore.getAllSongsAsync();
-    }
-
     createData(name, artist, album, duration, rating) {
         return { name, artist, album, duration, rating };
-    }
-
-    desc(a, b, orderBy) {
-        if (b[orderBy] < a[orderBy]) {
-            return -1;
-        }
-        if (b[orderBy] > a[orderBy]) {
-            return 1;
-        }
-        return 0;
     }
 
     stableSort(array, cmp) {
@@ -111,11 +98,23 @@ class InfinityList extends Component {
         return order === 'desc' ? (a, b) => this.desc(a, b, orderBy) : (a, b) => -this.desc(a, b, orderBy);
     }
 
+    desc(a, b, orderBy) {
+        if (b[orderBy] < a[orderBy]) {
+            return -1;
+        }
+        if (b[orderBy] > a[orderBy]) {
+            return 1;
+        }
+        return 0;
+    }
+
     handleChangePage = (event, newPage) => {
-        this.setPage(newPage);
+        const {ListStore} = this.props;
+        ListStore.setPage(newPage);
     };
 
     handleChangeRowsPerPage = event => {
+        const {ListStore} = this.props;
         this.setRowsPerPage(parseInt(event.target.value, 10));
         this.setPage(0);
     };
@@ -130,9 +129,10 @@ class InfinityList extends Component {
     };
 
     handleRequestSort = (event, property) => {
-        const isDesc = this.orderBy === property && this.order === 'desc';
-        this.setOrder(isDesc ? 'asc' : 'desc');
-        this.setOrderBy(property);
+        const {ListStore} = this.props;
+        const isDesc = ListStore.orderBy === property && ListStore.order === 'desc';
+        ListStore.setOrder(isDesc ? 'asc' : 'desc');
+        ListStore.setOrderBy(property);
     };
 
     EnhancedTableHead(props) {
@@ -178,7 +178,17 @@ class InfinityList extends Component {
         );
     }
 
+
     render() {
+        const {ListStore} = this.props;
+        const classes = useStyles;
+
+        const [order]= [ListStore.order];
+        const setOrder = ListStore.setOrder;
+        const [orderBy, setOrderBy] = [ListStore.orderBy, ListStore.setOrderBy];
+        const [page, serPage] = [ListStore.page, ListStore.setPage];
+        const [rowsPerPage, setRowsPerPage] = [ListStore.rowsPerPage, ListStore.setRowsPerPage];
+
         const rows = [
             this.createData('Ja Vi Elsker', "Bjørnstjerne Bjørnson", "N/A", 2, 1),
             this.createData('Vi Ska Fæst', "DDE", "Rai-Rai", 5.90, 5),
@@ -190,12 +200,6 @@ class InfinityList extends Component {
 
         ];
 
-        const classes = useStyles;
-        const [order, setOrder] = React.useState('asc');
-        const [orderBy, setOrderBy] = React.useState('title');
-        const [page, setPage] = React.useState(0);
-        const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
         this.EnhancedTableHead.propTypes = {
             classes: PropTypes.object.isRequired,
             onRequestSort: PropTypes.func.isRequired,
@@ -203,6 +207,10 @@ class InfinityList extends Component {
             orderBy: PropTypes.string.isRequired,
             rowCount: PropTypes.number.isRequired,
         };
+
+        const rowLength = 80;
+
+        const hrs = this.handleRequestSort();
 
         return (
             <div className={classes.root}>
@@ -212,16 +220,11 @@ class InfinityList extends Component {
                             className={classes.table}
                             size={'medium'}
                             aria-label="enhanced table"
-                        >
-                            <TableHead
-                                classes={classes}
-                                order={order}
-                                orderBy={orderBy}
-                                onRequestSort={this.handleRequestSort}
-                                rowCount={rows.length}
-                            > {this.EnhancedTableHead({classes: classes, order: order, orderBy: this.orderby, onRequestSort: this.handleRequestSort(), rowCount: rows.length})} </TableHead>
+                        >{this.EnhancedTableHead(
+                            [classes, order, orderBy, rowLength, this.handleRequestSort]
+                        )}
                             <TableBody>
-                                {this.stableSort(rows, this.getSorting(order, orderBy))
+                                {this.stableSort(rows, this.getSorting(ListStore.order, ListStore.orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((row, index) => {
                                         const labelId = `enhanced-table-checkbox-${index}`;
