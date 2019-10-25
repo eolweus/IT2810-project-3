@@ -1,11 +1,14 @@
 const Queries = require('./queries.js');
 const queries = new Queries();
 const express = require('express');
+const cors = require('cors');
 //const {Client} = require('@elastic/elasticsearch');
 //const client = new Client({node: 'http://localhost:9200'});
 
 console.log(queries);
 const app = express();
+
+app.use(cors());
 
 // Load songs from database
 app.get('/api/tracks/:trackId', (req, res) => {
