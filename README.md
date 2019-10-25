@@ -13,7 +13,7 @@
 3. Navigate to the app folder and run 'yarn install'
 
 ## Database installation and startup
-# Based on https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+### Based on https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
 1. Make sure docker is running on your computer
 2. Run commands as admin (open as admin in windows)
 3. Run `docker pull docker.elastic.co/elasticsearch/elasticsearch:7.4.1`
@@ -50,7 +50,7 @@ KRISTOFFER FYLLER UT HER
 For the backend we have chosen to use a REST api implemented with express, and elasticsearch for our database.
 
 ### The Express API
-We implemented a REST api using Express.js in the `server.js` file in the server folder. The reason we chose express, is that an express API works well with our database of choice: elasticsearch. Additionally, it proved to be very well documented and simple to set up.
+We implemented a REST api using Express.js in the `server.js` file in the server folder. The reason we chose express, is that an express REST API has all the feautures needed for our project needs and is straight foward to implement. Additionally, it proved to be very well documented and simple to set up.
 
 The `server.js` file contains 3 main functions. One for getting song data with the ID of a track which only takes the id as a param. The other get function takes in a multitude of parameters, including a search string. It then returns a set of all tracks matching the search on either the name of the song, the name of the artist, or the name of the album.
 
@@ -59,7 +59,7 @@ The final function is a POST request, and updates the user rating of a song by t
 <hr>
 
 ### Elastic search database
-Elasticsearch is a document database based on apache Lucene. We decided to use this because it is a very flexible and fast database. It has built in search functionality and allows us to feed it with json object without having to model the data first, this made getting the data really simple since we took it straight from the spotify API and feed it into the database with very little overhead, all we did was make sure the ID used by elasticsearch was the same as the track ID.
+Elasticsearch is a document database based on apache Lucene. We decided to use this because it is a very flexible and fast database that has all the feautures we want. It has built in search functionality and allows us to feed it with json object without having to model the data first, this made getting the data really simple since we took it straight from the spotify API and feed it into the database with very little overhead, all we did was make sure the ID used by elasticsearch was the same as the track ID.
 
 To communicate with the database we used elastics own Node.js api. This has beed used to add data to the database as well as retriving data from it.
 The `ElasticSearchFeeder.js` is used to feed the database with the data we have retrieved from spotify, with a bulk request.
