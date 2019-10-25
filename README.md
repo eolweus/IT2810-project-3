@@ -1,7 +1,8 @@
 # Assignment 3
 
 ## User guide to run locally
-### Required software
+<br>
+#### Required software
 1. Node.js (12.10.0 is confirmed to work, version 10 will not)
 2. Yarn
 3. Docker (with linux subsystem)
@@ -13,7 +14,7 @@
 3. Navigate to the app folder and run 'yarn install'
 
 ## Database installation and startup
-### Based on https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+##### Based on https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
 1. Make sure docker is running on your computer
 2. Run commands as admin (open as admin in windows)
 3. Run `docker pull docker.elastic.co/elasticsearch/elasticsearch:7.4.1`
@@ -24,12 +25,11 @@
 1. Using the command line interface, navigate to the server folder and run `npm start`
 2. In the same folder run `npm run-script db-init`, this can be ran again to clear any user generated data in the database
 3. Navigate to the app folder and run 'yarn start'
-4.
 SANDER OG KRISTOFFER, SJEKK AT DETTE STEMMER
 <hr>
 
 
-## Use of yarn and npm
+### Use of yarn and npm
 Originally, we were only using npm. Due to some weird bug we couldn't squash in our package.json file, we had to switch to using yarn midway. We are fully aware that it is not a common practice to use multiple package managers for a single project
 
 
@@ -82,8 +82,8 @@ The token is used by the `SpotifyPlaylistScraper.js` to iterate through all the 
 For testing, we decided to go with two different approaches for the frontend and backend. In the frontend, and for E2E testing, we used cypress. For the Backend we used integration testing with Jest.
 
 ### Integration testing with jest
-## How to run integration testing
-# Make sure that you have elasticsearch running on localhost:9200 and server.js running on localhost:5000, as it should be after finishing the user guide to run locally in this doc.
+#### How to run integration testing
+##### Make sure that you have elasticsearch running on localhost:9200 and server.js running on localhost:5000, as it should be after finishing the user guide to run locally in this doc.
 
 1. Simply navigate to the server folder and run `npm run-script test-it`, NOTE, this will remove all reviews from the server as it "resets" the database. Ideally we would make another instance of elasticsearch for this test but we had some problems running docker images on different ports.
 
