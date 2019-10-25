@@ -1,11 +1,9 @@
 import {observable, action, computed, async, runInAction} from "mobx";
 import SongService from "./SongService";
-import ListStore from "./ListStore"
+import ListStore from './ListStore';
 
 class SongStore {
-    @observable songData = {
-
-    };
+    @observable songData =[];
     @observable status = "initial";
     @observable initalQuery = "muse";
     @observable query = "";
@@ -26,18 +24,19 @@ class SongStore {
             const urlParams = new URLSearchParams(Object.entries(params));
             const data = await this.songService.get(urlParams)
             runInAction(() => {
-                this.songData = data;
-                this.songData.body.hits.hits.forEach( (song) => {
+                let fetchedData = data;
+                fetchedData.body.hits.hits.forEach( (song) => {
                     song = song._source;
-                    ListStore.addRow({
+                    this.songData.push({
                         name: song.name,
                         artist: song.artists[0].name,
                         album: song.album.name,
                         duration: Math.round(song.duration_ms / 60000),
                         rating: Math.round(song.cumulated_user_review_score / song.total_user_reviews)})
                 });
-                ListStore.populateRows();
+                ListStore.addRows(this.songData);
             });
+
         } catch (error) {
             runInAction(() => {
                 this.status = error.toString();

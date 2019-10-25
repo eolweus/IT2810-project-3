@@ -16,8 +16,9 @@ class ListStore {
         this.rowsPerPage = 5;
     }
 
-    @action addRow = (row) => {
-        this.fetchedRows.push(row)
+    @action addRows = (rows) => {
+        this.fetchedRows = rows;
+        this.populateRows();
     }
 
     @action populateRows = () => {
