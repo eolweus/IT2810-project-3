@@ -6,7 +6,7 @@ class Queries {
     constructor() {
 
     }
-
+    // Returns a specific track based on the trackId
     getById(trackId) {
         return client.get({
             index: 'tracks',
@@ -15,6 +15,7 @@ class Queries {
         });
     }
 
+    // Searches among all songs on the specified fields with the user input
     search(userInput, pageSize, fromElement) {
         return client.search({
             index: 'tracks',
@@ -70,6 +71,11 @@ class Queries {
         return client.search(searchObject);
     }
 
+    // Updates the rating of a song using the user specified score.
+    // elasticsearch can take scripts as "queries", and here it runs a script
+    // which updates the total score of a song (found by trackId), and increments
+    // the number of reviews.
+    // The score of a song is a variable derived from the total score and nr of reviews.
     addRating(score, trackId) {
         return client.update({
             'index': 'tracks',
@@ -80,7 +86,7 @@ class Queries {
                     "source":
                         "ctx._source.total_user_reviews += 1; ctx._source.cumulated_user_review_score += params.review_score",
                     "lang": "painless",
-                    "params": {
+                    "params": {// parameters passed to the script
                         "review_score": score
                     }
                 }
