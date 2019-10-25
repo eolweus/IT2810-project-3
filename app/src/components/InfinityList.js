@@ -79,6 +79,9 @@ const useStyles = makeStyles(theme => ({
 @inject("SongStore", "ListStore")
 @observer
 class InfinityList extends Component {
+    componentDidMount() {
+        this.props.SongStore.getAllSongsAsync();
+    }
 
     createData(name, artist, album, duration, rating) {
         return { name, artist, album, duration, rating };
@@ -115,8 +118,8 @@ class InfinityList extends Component {
 
     handleChangeRowsPerPage = event => {
         const {ListStore} = this.props;
-        this.setRowsPerPage(parseInt(event.target.value, 10));
-        this.setPage(0);
+        ListStore.setRowsPerPage(parseInt(event.target.value, 10));
+        ListStore.setPage(0);
     };
 
     handleChangeRating = (e) => {
@@ -181,6 +184,7 @@ class InfinityList extends Component {
 
     render() {
         const {ListStore} = this.props;
+        const {SongStore} = this.props;
         const classes = useStyles;
 
         const [order]= [ListStore.order];
@@ -189,16 +193,7 @@ class InfinityList extends Component {
         const [page, serPage] = [ListStore.page, ListStore.setPage];
         const [rowsPerPage, setRowsPerPage] = [ListStore.rowsPerPage, ListStore.setRowsPerPage];
 
-        const rows = [
-            this.createData('Ja Vi Elsker', "Bjørnstjerne Bjørnson", "N/A", 2, 1),
-            this.createData('Vi Ska Fæst', "DDE", "Rai-Rai", 5.90, 5),
-            this.createData('E6', "DDE", "Rai-Rai", 6, 3),
-            this.createData('Dovregubbens Hall', "Edvard Grieg", "N/A", 8, 1),
-            this.createData('Nu Klinger', "Frode Rinnan", "Cassa Rossa", 4, 2),
-            this.createData('Raske Briller', "Nicolay Ramm", "Raske Briller", 2, 4),
-            this.createData('Sound of Silence', "Pentatonix", "Sounds of Silence", 8, 3),
-
-        ];
+        const rows = ListStore.rows;
 
         this.EnhancedTableHead.propTypes = {
             classes: PropTypes.object.isRequired,
@@ -241,7 +236,7 @@ class InfinityList extends Component {
                                                 <TableCell align="left">{row.album}</TableCell>
                                                 <TableCell align="right">{row.duration}</TableCell>
                                                 <TableCell align="right" id={index}>
-                                                    <Rating name="rating" value={row.rating} precision={0.5} size="small"
+                                                    <Rating name="rating" value={row.rating} precision={1} size="small"
                                                             onChange={e => this.handleChangeRating(e)}
                                                     />
                                                 </TableCell>

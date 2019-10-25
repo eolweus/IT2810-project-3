@@ -1,4 +1,4 @@
-const webApiUrl = "http://localhost/5000/api/tracks";
+const webApiUrl = "http://localhost:5000/api/tracks";
 
 class SongService {
     get = async (urlParams) => {

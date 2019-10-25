@@ -1,5 +1,6 @@
 import {observable, action, computed, async, runInAction} from "mobx";
 import SongService from "./SongService";
+import ListStore from "./ListStore"
 
 class SongStore {
     @observable songData = {
@@ -26,10 +27,20 @@ class SongStore {
             const data = await this.songService.get(urlParams)
             runInAction(() => {
                 this.songData = data;
+                this.songData.body.hits.hits.forEach( (song) => {
+                    song = song._source;
+                    ListStore.addRow({
+                        name: song.name,
+                        artist: song.artists[0].name,
+                        album: song.album.name,
+                        duration: Math.round(song.duration_ms / 60000),
+                        rating: Math.round(song.cumulated_user_review_score / song.total_user_reviews)})
+                });
+                ListStore.populateRows();
             });
         } catch (error) {
             runInAction(() => {
-                this.status = "error";
+                this.status = error.toString();
             });
         }
     };
@@ -62,7 +73,7 @@ class SongStore {
             }
         } catch (error) {
             runInAction(() => {
-                this.status = "error";
+                this.status = error.toString();
             });
         }
 
@@ -77,7 +88,7 @@ class SongStore {
             }
         } catch (error) {
             runInAction(() => {
-                this.status = "error";
+                this.status = error.toString();
             });
         }
     };
@@ -91,7 +102,7 @@ class SongStore {
             }
         } catch (error) {
             runInAction(() => {
-                this.status = "error";
+                this.status = error.toString();
             });
         }
     }

@@ -69,10 +69,6 @@ const useStyles = makeStyles(theme => ({
 @observer
 class App extends Component{
 
-  componentDidMount() {
-    this.props.SongStore.getAllSongsAsync();
-  }
-
   render() {
     const {SongStore} = this.props;
     const classes = useStyles;
@@ -81,8 +77,6 @@ class App extends Component{
         <div className={classes.root} style={{ backgroundColor: theme.palette.primary.main}}>
           <CssBaseline/>
           <Container maxWidth="lg"
-                     justifyContent="center"
-                     justifyItems="center"
           >
             <Typography component="div" style={{ backgroundColor: theme.palette.primary.light, minHeight: '100vh'}}>
               <AppBar position="static" style={{backgroundColor: theme.palette.primary.dark, minHeight: '8vh'}}>
@@ -94,7 +88,7 @@ class App extends Component{
                 </Typography>
               </AppBar>
 
-              <Paper className={classes.container} elevation={-10}>
+              <Paper className={classes.container}>
                 <Typography className="endless-list" paragraph={true} align="center">
                   <Typography variant="h4" className={classes.subtitle}>
                     Amazing list of Infinity*

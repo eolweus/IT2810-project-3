@@ -1,10 +1,28 @@
 import {observable, action, computed} from "mobx";
 
 class ListStore {
-    @observable order = 'asc';
-    @observable orderBy = 'title';
-    @observable page = 0;
-    @observable rowsPerPage = 5;
+    @observable rows = [];
+    @observable order;
+    @observable orderBy;
+    @observable page;
+    @observable rowsPerPage;
+
+    fetchedRows = [];
+
+    constructor() {
+        this.order = 'asc';
+        this.orderBy = 'title';
+        this.page = 0;
+        this.rowsPerPage = 5;
+    }
+
+    @action addRow = (row) => {
+        this.fetchedRows.push(row)
+    }
+
+    @action populateRows = () => {
+        this.rows = this.fetchedRows
+    }
 
     @action setOrder = (order) => {
         this.order = order;
