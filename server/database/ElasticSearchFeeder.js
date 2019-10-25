@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require("path");
 const {Client} = require('@elastic/elasticsearch');
 const client = new Client({node: 'http://localhost:9200'});
 
@@ -13,7 +14,7 @@ async function feed() {
         console.log(error);
         console.log("Probably because index doesnt exist yet");
     });
-    let tracks = fs.readFileSync('tools/tracks.json', 'utf8');
+    let tracks = fs.readFileSync(path.resolve(__dirname, '../database/tools/tracks.json'), 'utf8');
     let jsonData = JSON.parse(tracks);
     const body = jsonData.flatMap((track) => {
         track['total_user_reviews'] = 0;
