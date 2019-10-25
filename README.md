@@ -22,7 +22,7 @@ SANDER OG KRISTOFFER, SJEKK AT DETTE STEMMER
 
 
 ## Use of yarn and npm
-Originally, we were only using npm, but due to some weird bug we couldn't squash in our package.json file, we had to switch to using yarn midway. We are fully aware that it is not a common practice to use multiple package managers for a single project
+Originally, we were only using npm.Due to some weird bug we couldn't squash in our package.json file, we had to switch to using yarn midway. We are fully aware that it is not a common practice to use multiple package managers for a single project
 
 
 ### Heirarchy
@@ -31,15 +31,20 @@ Our app is primarily devided into an app folder, and a server folder. The app co
 ## Frontend
 KRISTOFFER FYLLER UT HER
 
+### Dependencies and plugins
+
+
+### Technology
+
 <hr>
 
 ## Backend
-
+For the backend we have chosen to use a REST api implemented with express, and elasticsearch for our database.
 
 ### The Express API
 We implemented a REST api using Express.js in the `server.js` file in the server folder. The reason we chose express, is that an express API works well with our database of choice: elasticsearch. Additionally, it proved to be very well documented and simple to set up.
 
-The `server.js`file contains 3 main functions. One for getting song data with the ID of a track which only takes the id as a param. The other get function takes in a multitude of parameters, including a search string. It then returns a set of all tracks matching the search on either the name of the song, the name of the artist, or the name of the album.
+The `server.js` file contains 3 main functions. One for getting song data with the ID of a track which only takes the id as a param. The other get function takes in a multitude of parameters, including a search string. It then returns a set of all tracks matching the search on either the name of the song, the name of the artist, or the name of the album.
 
 The final function is a POST request, and updates the user rating of a song by taking in the trackId as a parameter. The rating of a song is a variable derived from the two data fields actually updated in this function; `cumulated_user_review_score` and `total_user_reviews`.
 
