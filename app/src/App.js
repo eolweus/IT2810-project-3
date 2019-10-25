@@ -131,7 +131,7 @@ class App extends Component{
                     Amazingly Advanced Viewing Experience
                   </Typography>
                   <Typography className={classes.container}>
-                    <WordCloud/>
+                    <WordCloud />
                   </Typography>
                 </Typography>
 
