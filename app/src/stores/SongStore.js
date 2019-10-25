@@ -5,7 +5,9 @@ class SongStore {
     @observable filter = "";
 
     @action addSong = (song) => {
-        this.songs.push(song);
+        if (song !== "") {
+            this.songs.push(song);
+        }
     }
 
     @computed get songCount() {
