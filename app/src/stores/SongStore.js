@@ -6,15 +6,23 @@ class SongStore {
 
     };
     @observable status = "initial";
+    @observable initalQuery = "muse";
     @observable query = "";
 
     constructor() {
         this.songService = new SongService();
     }
 
+    @action setQuery = (string) => {
+        this.query = string;
+    }
+
     @action getAllSongsAsync = async () => {
         try {
-            const urlParams = new URLSearchParams(Object.entries());
+            let params = {
+                searchString: this.initalQuery
+            }
+            const urlParams = new URLSearchParams(Object.entries(params));
             const data = await this.songService.get(urlParams)
             runInAction(() => {
                 this.songData = data;
@@ -32,7 +40,7 @@ class SongStore {
                 name: this.songData.name,
                 query: this.query,
             }
-            const urlParams = new URLSearchParams(Object.entries());
+            const urlParams = new URLSearchParams(Object.entries(params));
             const data = await this.songService.get(urlParams)
             runInAction(() => {
                 this.songData = data;
