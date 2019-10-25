@@ -9,7 +9,10 @@ async function feed() {
             console.log("Successful delete!");
             console.log(JSON.stringify(res, null, 4));
         }
-    );
+    ).catch((error) => {
+        console.log(error);
+        console.log("Probably because index doesnt exist yet");
+    });
     let tracks = fs.readFileSync('tools/tracks.json', 'utf8');
     let jsonData = JSON.parse(tracks);
     const body = jsonData.flatMap((track) => {
@@ -17,7 +20,7 @@ async function feed() {
         track['cumulated_user_review_score'] = 0;
         return [{index: {_index: 'tracks', '_id': track.id}}, track];
     });
-    const {body: bulkresponse} = await client.bulk({refresh: true, body}).then("Successfully added tracks");
+    const {body: bulkresponse} = await client.bulk({refresh: true, body}).then(console.log("Successfully added tracks"));
 
 
 }
