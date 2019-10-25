@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-it": "concurrently \"node database/ElasticSearchFeeder.js\" \"jest\"",
+    "db-init": "node database/ElasticSearchFeeder.js",
     "start": "nodemon server.js",
     "server": "nodemon server.js"
   },
