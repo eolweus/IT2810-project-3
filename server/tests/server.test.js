@@ -53,3 +53,9 @@ describe('Add review with api', () => {
 
     });
 });
+describe('get songs with api search', ()=>{
+    it('finds the song on search', async ()=>{
+        let response = await getRequest('http://localhost:5000/api/tracks?searchString=shoot me down');
+        expect(response.body.hits.hits.some((track) => track._id === '5fwsVjNN11mSSLYBXa2X7b')).toBe(true);
+    });
+});
