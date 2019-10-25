@@ -1,23 +1,100 @@
-import {observable, action, computed} from "mobx";
+import {observable, action, computed, async, runInAction} from "mobx";
+import SongService from "./SongService";
 
 class SongStore {
-    @observable songs = [];
-    @observable filter = "";
+    @observable songData = {
 
-    @action addSong = (song) => {
-        if (song !== "") {
-            this.songs.push(song);
+    };
+    @observable status = "initial";
+    @observable query = "";
+
+    constructor() {
+        this.songService = new SongService();
+    }
+
+    @action getAllSongsAsync = async () => {
+        try {
+            const urlParams = new URLSearchParams(Object.entries());
+            const data = await this.songService.get(urlParams)
+            runInAction(() => {
+                this.songData = data;
+            });
+        } catch (error) {
+            runInAction(() => {
+                this.status = "error";
+            });
+        }
+    };
+
+    @action getSpecifiedSongsAsync = async () => {
+        try {
+            let params = {
+                name: this.songData.name,
+                query: this.query,
+            }
+            const urlParams = new URLSearchParams(Object.entries());
+            const data = await this.songService.get(urlParams)
+            runInAction(() => {
+                this.songData = data;
+            });
+        } catch (error) {
+            runInAction(() => {
+                this.status = "error";
+            });
+        }
+    };
+
+    @action createSongRatingAsync = async (model) => {
+        try {
+            const response = await this.songService.post(model);
+            if (response.status === 201) {
+                runInAction(() => {
+                    this.status = "success";
+                })
+            }
+        } catch (error) {
+            runInAction(() => {
+                this.status = "error";
+            });
+        }
+
+    };
+    @action updateSongRatingAsync = async (vehicle) => {
+        try {
+            const response = await this.songService.put(vehicle)
+            if (response.status === 200) {
+                runInAction(() => {
+                    this.status = "success";
+                })
+            }
+        } catch (error) {
+            runInAction(() => {
+                this.status = "error";
+            });
+        }
+    };
+    @action deleteSongRatingAsync = async (id) => {
+        try {
+            const response = await this.countryService.delete(id);
+            if (response.status === 204) {
+                runInAction(() => {
+                    this.status = "success";
+                })
+            }
+        } catch (error) {
+            runInAction(() => {
+                this.status = "error";
+            });
         }
     }
 
-    @computed get songCount() {
-        return this.songs.length;
-    }
 
-    @computed get filteredSongs() {
-        let matchesFilter = new RegExp(this.filter, "i");
-        return this.songs.filter(song => !this.filter || matchesFilter.test(song));
-    }
+
+
+
+
+
+
 }
 
 
