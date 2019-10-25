@@ -69,15 +69,8 @@ const useStyles = makeStyles(theme => ({
 @observer
 class App extends Component{
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const song = this.song.value;
-    this.props.SongStore.addSong(song);
-    //clear input field in order to enable adding more songs
-    this.song.value = "";
-  }
-  filter = (e) => {
-    this.props.SongStore.filter = e.target.value;
+  componentDidMount() {
+    this.props.SongStore.getAllSongsAsync();
   }
 
   render() {
@@ -92,7 +85,7 @@ class App extends Component{
                      justifyItems="center"
           >
             <Typography component="div" style={{ backgroundColor: theme.palette.primary.light, minHeight: '100vh'}}>
-              <AppBar position="static" style={{backgroundColor: theme.palette.primary.dark, height: '8vh'}}>
+              <AppBar position="static" style={{backgroundColor: theme.palette.primary.dark, minHeight: '8vh'}}>
                 <Typography variant="h3" className={classes.title} align="center">
                   Mind Blowing Playlist Display
                 </Typography>
