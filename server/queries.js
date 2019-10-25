@@ -10,12 +10,13 @@ class Queries {
     getById(trackId) {
         return client.get({
             index: 'tracks',
-            id: trackId,
-            type: "_doc"
+            id: trackId, //ID is the unique identifier for each track, this is the same that is used by Spotify
+            type: "_doc" //This is standard type in elasticsearch
         });
     }
 
-    // Searches among all songs on the specified fields with the user input
+    // Searches among all songs on songname, artistname and albumname fields with the user input
+    // Results will be searched by relevance.
     search(userInput, pageSize, fromElement) {
         return client.search({
             index: 'tracks',
@@ -47,8 +48,8 @@ class Queries {
     searchWithSorting(userInput, pageSize, fromElement, sortBy, sortAsc) {
         let searchObject = {
             index: 'tracks',
-            from: fromElement, //From and size is for pagination
-            size: pageSize,
+            from: fromElement, //From is the start element
+            size: pageSize, //size is the max amount of hits that are returned
             body: {
                 'sort': {},
                 "query": {
@@ -84,8 +85,8 @@ class Queries {
             'body': {
                 "script": {
                     "source":
-                        "ctx._source.total_user_reviews += 1; ctx._source.cumulated_user_review_score += params.review_score",
-                    "lang": "painless",
+                        "ctx._source.total_user_reviews += 1; ctx._source.cumulated_user_review_score += params.review_score", //This script will run on the database
+                    "lang": "painless", //painless is a language developed for elasticsearch
                     "params": {// parameters passed to the script
                         "review_score": score
                     }
