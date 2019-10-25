@@ -24,7 +24,7 @@
 1. Using the command line interface, navigate to the server folder and run `npm start`
 2. In the same folder run `npm run-script db-init`, this can be ran again to clear any user generated data in the database
 3. Navigate to the app folder and run 'yarn start'
-4. 
+4.
 SANDER OG KRISTOFFER, SJEKK AT DETTE STEMMER
 <hr>
 
@@ -89,3 +89,7 @@ SANDER FYLLER INN HER
 1. Simply navigate to the server folder and run `npm run-script test-it`, NOTE, this will remove all reviews from the server as it "resets" the database. Ideally we would make another instance of elasticsearch for this test but we had some problems running docker images on different ports.
 
 ### Testing with cypress
+For testing DOM functionality we decided to go with cypress. Cypress proved easy to set up and easy to use. The tests we have written focus on changing up the selection of songs displayed.
+
+### How to run cypress tests locally
+To set up the cypress testing environment locally navigate to the app folder and run `yarn run cypress open`. After opening the cypress testing tool, run all the tests in the dom_tests folder.
