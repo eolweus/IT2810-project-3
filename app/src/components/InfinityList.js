@@ -12,7 +12,10 @@ import {
 } from '@material-ui/core';
 import React, {Component} from "react";
 import Rating from '@material-ui/lab/Rating';
-import {inject, observer} from "mobx-react";
+import {observer, inject} from "mobx-react";
+
+import Popup from './Popup/Popup'
+
 
 const theme = createMuiTheme({
     palette: {
@@ -82,7 +85,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-@inject("SongStore", "ListStore")
+@inject("SongStore", "ListStore", "PopupStore")
 @observer
 class InfinityList extends Component {
     componentDidMount() {
@@ -116,6 +119,14 @@ class InfinityList extends Component {
         ListStore.setOrder(property, isAsc ? 'desc' : 'asc');
 
     };
+
+    handlePopup = e => {
+        const {PopupStore} = this.props;
+        console.log(e.target)
+        PopupStore.updatePopup("hey", "you", "big", "dick")
+        PopupStore.showPopup()
+        console.log('handlePopup')
+    }
 
     EnhancedTableHead(props) {
         const {classes, order, orderBy, rowCount, onRequestSort} = props;
@@ -199,6 +210,7 @@ class InfinityList extends Component {
                                             <TableRow
                                                 hover
                                                 key={row.name}
+                                                onClick={e => this.handlePopup(e)}
                                             >
                                                 <TableCell component="th" id={labelId} scope="row">
                                                     {row.name}

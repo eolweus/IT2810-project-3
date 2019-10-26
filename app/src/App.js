@@ -5,6 +5,7 @@ import {Container, Grid, CssBaseline, Typography, Paper, AppBar, ExpansionPanel,
 import InfinityList from "./components/InfinityList";
 import WordCloud from "./components/WordCloud";
 import DataQuerying from "./components/DataQuerying";
+import Popup from './components/Popup/Popup'
 
 const theme = createMuiTheme({
   palette: {
@@ -66,12 +67,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-@inject("SongStore")
+@inject("SongStore", "PopupStore")
 @observer
 class App extends Component{
 
   render() {
     const {SongStore} = this.props;
+    const {PopupStore} = this.props;
     const classes = useStyles;
 
     return (
@@ -107,6 +109,7 @@ class App extends Component{
                     justify="center"
                   >
                     <Paper elevation={10}>
+                        {PopupStore.show ? <Popup/> : null}
                         <InfinityList/>
                     </Paper>
                   </Grid>
