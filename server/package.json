@@ -15,6 +15,7 @@
   "dependencies": {
     "@elastic/elasticsearch": "^7.4.0",
     "concurrently": "^5.0.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "request": "^2.88.0"
   },
@@ -23,8 +24,6 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ]
-    "cors": "^2.8.5",
-    "express": "^4.17.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"
