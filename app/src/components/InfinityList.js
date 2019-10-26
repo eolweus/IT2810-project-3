@@ -105,8 +105,8 @@ class InfinityList extends Component {
 
     handleRequestSort = (event, property) => {
         const {ListStore} = this.props;
-        const isDesc = ListStore.orderBy === property && ListStore.order === 'desc';
-        ListStore.setOrder(isDesc ? 'asc' : 'desc', property);
+        const isAsc = ListStore.orderBy === property && ListStore.order === 'asc';
+        ListStore.setOrder(isAsc ? 'asc' : 'desc', property);
 
     };
 
