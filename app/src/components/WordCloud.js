@@ -1,21 +1,20 @@
 import ReactWordCloud from 'react-wordcloud';
-import randomColor from 'randomcolor';
 import React, {Component} from 'react';
-import {observer, inject} from "mobx-react";
+import {inject, observer} from "mobx-react";
 
 @inject("SongStore")
 @observer
 class WordCloud extends Component {
     componentDidMount() {
-        setInterval(() => {
-            this.forceUpdate();
-        }, 3000);
+
+        this.forceUpdate();
+
     }
 
     render() {
         const {SongStore} = this.props;
-        return (
-            <ReactWordCloud words={SongStore.wordCloud}/>
+        return (<div></div>
+            //<ReactWordCloud words={SongStore.wordCloud}/>
         );
     }
 }
