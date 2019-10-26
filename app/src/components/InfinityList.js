@@ -165,7 +165,6 @@ class InfinityList extends Component {
             rowCount: PropTypes.number.isRequired,
         };
 
-        const rowLength = ListStore.rowCount;
 
         return (
             <div className={classes.root}>
@@ -176,7 +175,7 @@ class InfinityList extends Component {
                             size={'medium'}
                             aria-label="enhanced table"
                         >{this.EnhancedTableHead(
-                            {classes: classes, order: ListStore.order, orderBy: ListStore.orderBy, rowCount: rowLength, onRequestSort: this.handleRequestSort}
+                            {classes: classes, order: ListStore.order, orderBy: ListStore.orderBy, rowCount: ListStore.totalHits, onRequestSort: this.handleRequestSort}
                         )}
                             <TableBody>
                                 {ListStore.rows.slice(ListStore.page * ListStore.rowsPerPage, ListStore.page * ListStore.rowsPerPage + ListStore.rowsPerPage)
@@ -208,7 +207,7 @@ class InfinityList extends Component {
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 50]}
                         component="div"
-                        count={ListStore.rowCount}
+                        count={ListStore.totalHits}
                         rowsPerPage={ListStore.rowsPerPage}
                         page={ListStore.page}
                         backIconButtonProps={{

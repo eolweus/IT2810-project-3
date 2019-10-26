@@ -7,6 +7,7 @@ class ListStore {
     @observable rowsPerPage;
     @observable order;
     @observable orderBy;
+    @observable totalHits = 0;
 
     fetchedRows = [];
 
@@ -40,10 +41,10 @@ class ListStore {
         this.rowsPerPage = rowsPerPage;
         QueryStore.setLimit(rowsPerPage);
     }
-
-    @computed get rowCount() {
-        return this.rows.length;
+    @action setTotalHits = (totalHits) => {
+        this.totalHits = totalHits;
     }
+
 
 
 
