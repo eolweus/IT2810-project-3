@@ -107,6 +107,7 @@ class InfinityList extends Component {
         const {ListStore} = this.props;
         const isDesc = ListStore.orderBy === property && ListStore.order === 'desc';
         ListStore.setOrder(isDesc ? 'asc' : 'desc', property);
+
     };
 
     EnhancedTableHead(props) {
@@ -141,7 +142,7 @@ class InfinityList extends Component {
                                 {headCell.label}
                                 {orderBy === headCell.id ? (
                                     <span className={classes.visuallyHidden}>
-                </span>
+                                    </span>
                                 ) : null}
                             </TableSortLabel>
                         </TableCell>
