@@ -21,7 +21,8 @@ class QueryStore {
     }
     @action setOffset = (offset) => {
         this.offset = offset;
-        SongStore.searchForSongAsync();
+        console.log("QueryStore offset: " + offset);
+        SongStore.searchForSongWithoutListWipeAsync();
     }
     @action setFilter = (filterBy, greaterThan) => {
         this.filterBy = filterBy;
@@ -40,7 +41,7 @@ class QueryStore {
     }
 */
     @action clearFilter = () => {
-        this.setSearchString(null)
+        this.setSearchString(null);
         this.setLimit(null);
         this.setOffset(null);
         this.setFilter(null, null);

@@ -1,11 +1,21 @@
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { createMuiTheme, lighten, makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TableSortLabel, Toolbar, Typography, Paper, IconButton, Tooltip, FormControlLabel, Switch } from '@material-ui/core';
-import React, { Component } from "react";
+import {createMuiTheme, lighten, makeStyles} from '@material-ui/core/styles';
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TablePagination,
+    TableRow,
+    TableSortLabel
+} from '@material-ui/core';
+import React, {Component} from "react";
 import Rating from '@material-ui/lab/Rating';
-import { observer, inject } from "mobx-react";
+import {observer, inject} from "mobx-react";
+
 import Popup from './Popup/Popup'
+
 
 const theme = createMuiTheme({
     palette: {
@@ -43,8 +53,6 @@ const useToolbarStyles = makeStyles(theme => ({
         flex: '1 1 100%',
     },
 }));
-
-
 
 
 const useStyles = makeStyles(theme => ({
@@ -86,7 +94,11 @@ class InfinityList extends Component {
 
     handleChangePage = (event, newPage) => {
         const {ListStore} = this.props;
-        ListStore.setPage(newPage);
+        if (newPage < ListStore.page) {
+            ListStore.setPageWithoutDbCall(newPage);
+        } else {
+            ListStore.setPage(newPage);
+        }
     };
 
     handleChangeRowsPerPage = event => {
@@ -96,18 +108,15 @@ class InfinityList extends Component {
     };
 
     handleChangeRating = (e) => {
-        try {
-            this.rows[e.target.id].rating = e.target.value;
-        } catch (e) {
-
-        }
+        const {SongStore} = this.props;
+        SongStore.createSongRatingAsync(e.target.id, e.target.value)
 
     };
 
     handleRequestSort = (event, property) => {
         const {ListStore} = this.props;
-        const isDesc = ListStore.orderBy === property && ListStore.order === 'desc';
-        ListStore.setOrder(isDesc ? 'asc' : 'desc', property);
+        const isAsc = ListStore.order === 'asc';
+        ListStore.setOrder(property, isAsc ? 'desc' : 'asc');
 
     };
 
@@ -120,17 +129,17 @@ class InfinityList extends Component {
     }
 
     EnhancedTableHead(props) {
-        const { classes, order, orderBy, rowCount, onRequestSort } = props;
+        const {classes, order, orderBy, rowCount, onRequestSort} = props;
         const createSortHandler = property => event => {
             onRequestSort(event, property);
         };
 
         const headCells = [
-            { id: 'name', numeric: false, disablePadding: false, label: 'Title' },
-            { id: 'artist', numeric: false, disablePadding: false, label: 'Artist' },
-            { id: 'album', numeric: false, disablePadding: false, label: 'Album' },
-            { id: 'duration', numeric: true, disablePadding: false, label: 'Duration' },
-            { id: 'rating', numeric: true, disablePadding: false, label: 'Rating' },
+            {id: 'name.keyword', numeric: false, disablePadding: false, label: 'Title'},
+            {id: 'first_artist.name.keyword', numeric: false, disablePadding: false, label: 'Artist'},
+            {id: 'album.name.keyword', numeric: false, disablePadding: false, label: 'Album'},
+            {id: 'duration_ms', numeric: true, disablePadding: false, label: 'Duration'},
+            {id: 'average_user_rating', numeric: true, disablePadding: false, label: 'Rating'},
         ];
 
         return (
@@ -174,7 +183,6 @@ class InfinityList extends Component {
             rowCount: PropTypes.number.isRequired,
         };
 
-        const rowLength = ListStore.rowCount;
 
         return (
             <div className={classes.root}>
@@ -185,12 +193,18 @@ class InfinityList extends Component {
                             size={'medium'}
                             aria-label="enhanced table"
                         >{this.EnhancedTableHead(
-                            {classes: classes, order: ListStore.order, orderBy: ListStore.orderBy, rowCount: rowLength, onRequestSort: this.handleRequestSort}
+                            {
+                                classes: classes,
+                                order: ListStore.order,
+                                orderBy: ListStore.orderBy,
+                                rowCount: ListStore.totalHits,
+                                onRequestSort: this.handleRequestSort
+                            }
                         )}
                             <TableBody>
                                 {ListStore.rows.slice(ListStore.page * ListStore.rowsPerPage, ListStore.page * ListStore.rowsPerPage + ListStore.rowsPerPage)
                                     .map((row, index) => {
-                                        const labelId = `enhanced-table-checkbox-${index}`;
+                                        const labelId = row.id;
 
                                         return (
                                             <TableRow
@@ -204,8 +218,8 @@ class InfinityList extends Component {
                                                 <TableCell align="left">{row.artist}</TableCell>
                                                 <TableCell align="left">{row.album}</TableCell>
                                                 <TableCell align="right">{row.duration}</TableCell>
-                                                <TableCell align="right" id={index}>
-                                                    <Rating name="rating" value={row.rating} precision={1} size="small"
+                                                <TableCell align="right" id={row.id}>
+                                                    <Rating name={row.id} value={row.rating} precision={1} size="small"
                                                             onChange={e => this.handleChangeRating(e)}
                                                     />
                                                 </TableCell>
@@ -218,11 +232,11 @@ class InfinityList extends Component {
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={ListStore.rowCount}
+                        count={ListStore.totalHits}
                         rowsPerPage={ListStore.rowsPerPage}
                         page={ListStore.page}
                         backIconButtonProps={{
-                            'aria-label': 'previous page',
+                            'disabled': true
                         }}
                         nextIconButtonProps={{
                             'aria-label': 'next page',

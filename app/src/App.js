@@ -84,7 +84,7 @@ class App extends Component{
             <Typography style={{ backgroundColor: theme.palette.primary.light, minHeight: '100vh'}}>
               <AppBar position="static" style={{backgroundColor: theme.palette.primary.dark, minHeight: '8vh'}}>
                 <Typography variant="h3" className={classes.title} align="center">
-                  Mind Blowing Playlist Display
+                  Mind Blowing Spotify Data Display
                 </Typography>
                 <Typography variant="subtitle2" align="center">
                   brought to you by Group 67
