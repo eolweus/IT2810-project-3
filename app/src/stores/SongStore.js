@@ -6,25 +6,15 @@ import QueryStore from './QueryStore';
 class SongStore {
     @observable songData =[];
     @observable status;
-    @observable query = "";
 
     constructor() {
         this.songService = new SongService();
         this.status = "initial";
-        this.query = "lil wayne";
     }
 
-    @action setQuery = (string) => {
-        this.query = string;
-    }
-
-    @action getSongsAsync = async () => {
+    @action getAllSongsAsync = async () => {
         try {
-
-            let params = {
-                searchString: this.query
-            }
-            const urlParams = new URLSearchParams(Object.entries(params));
+            const urlParams = new URLSearchParams(Object.entries());
             const data = await this.songService.get(urlParams)
             runInAction(() => {
                 let fetchedData = data;
@@ -63,9 +53,19 @@ class SongStore {
             const urlParams = new URLSearchParams(Object.entries(params));
             const data = await this.songService.get(urlParams)
             runInAction(() => {
-                this.songData = data;
+                let fetchedData = data;
+                fetchedData.body.hits.hits.forEach( (song) => {
+                    song = song._source;
+                    this.songData.push({
+                        name: song.name,
+                        artist: song.artists[0].name,
+                        album: song.album.name,
+                        duration: Math.floor(song.duration_ms / 60000),
+                        rating: Math.round(song.cumulated_user_review_score / song.total_user_reviews)})
+                });
+                ListStore.addRows(this.songData);
+                QueryStore.clearFilter();
             });
-            QueryStore.clearFilter();
         } catch (error) {
             runInAction(() => {
                 this.status = "error";
