@@ -31,7 +31,7 @@ class SongStore {
     @action searchForSongAsync = async () => {
         let urlParamsObject = {};
 
-        if(QueryStore.searchString !== null) { urlParamsObject['searchString'] = QueryStore.searchString}
+        if(!(QueryStore.searchString === null || QueryStore.searchString === "")) { urlParamsObject['searchString'] = QueryStore.searchString}
         if(QueryStore.filterBy !== null) {urlParamsObject['filterBy'] = QueryStore.filterBy}
         if(QueryStore.greaterThan !== null) {urlParamsObject['greaterThan'] = QueryStore.greaterThan}
         if(QueryStore.sortBy !== null) {urlParamsObject['sortBy'] = QueryStore.sortBy}
@@ -56,8 +56,9 @@ class SongStore {
                 this.wordsForCloud.push({text: song.name, value: i});
                 i++;
             });
-            ListStore.setTotalHits(fetchedData.body.hits.total.value);
+            console.log("New request has ran");
             ListStore.addRows(this.songData);
+            ListStore.setTotalHits(fetchedData.body.hits.total.value);
         });
     };
 
