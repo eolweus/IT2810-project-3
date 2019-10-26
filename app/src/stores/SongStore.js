@@ -3,7 +3,8 @@ import SongService from "./SongService";
 import ListStore from './ListStore';
 import QueryStore from './QueryStore';
 
-class SongStore {
+
+export class SongStore {
     @observable songData =[];
     @observable wordsForCloud = [];
     @observable status;
@@ -16,6 +17,29 @@ class SongStore {
         this.initialQuery = "";
     }
 
+    @action searchForSongAsync = async () => {
+        let urlParamsString = '';
+        if(QueryStore.searchString !== null) { urlParamsString += 'searchString=' + QueryStore.searchString};
+        console.log(urlParamsString);
+        const urlParams = new URLSearchParams(urlParamsString);
+        console.log(urlParams);
+        const data = await this.songService.get(urlParams);
+        console.log(data);
+        runInAction(() => {
+            let fetchedData = data;
+            fetchedData.body.hits.hits.forEach( (song) => {
+                song = song._source;
+                this.songData.push({
+                    name: song.name,
+                    artist: song.artists[0].name,
+                    album: song.album.name,
+                    duration: Math.floor(song.duration_ms / 60000),
+                    rating: Math.round(song.cumulated_user_review_score / song.total_user_reviews)});
+                this.wordsForCloud.push(song.artists[0].name)
+            });
+            ListStore.addRows(this.songData);
+        });
+    };
     @action getAllSongsAsync = async () => {
         try {
             const urlParams = new URLSearchParams(Object.entries(this.initialQuery));

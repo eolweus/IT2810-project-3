@@ -65,13 +65,30 @@ const useStyles = makeStyles(theme => ({
 @inject("QueryStore")
 @observer
 class DataQuerying extends Component {
+    sendUserInput(searchString){
+        const {QueryStore} = this.props;
+        QueryStore.setSearchString(searchString);
 
+    }
     render() {
+
         return(
             <Typography>
-                <Paper>
-
-                </Paper>
+                <TextField
+                    id="outlined-search"
+                    label="Search field"
+                    type="search"
+                    className={TextField}
+                    margin="normal"
+                    variant="outlined"
+                    onKeyPress={(ev) => {
+                        console.log(`Pressed keyCode ${ev.key}`);
+                        if (ev.key === 'Enter') {
+                            ev.preventDefault();
+                            this.sendUserInput(ev.target.value);
+                        }
+                    }}
+                />
             </Typography>
         );
     }
