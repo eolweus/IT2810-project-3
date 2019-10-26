@@ -16,12 +16,17 @@ class SongStore {
         this.initialQuery = "";
     }
 
+    @computed get wordCloud() {
+        return this.wordsForCloud;
+    }
+
     @action getAllSongsAsync = async () => {
         try {
             const urlParams = new URLSearchParams(Object.entries(this.initialQuery));
             const data = await this.songService.get(urlParams)
             runInAction(() => {
                 let fetchedData = data;
+                let i = 0;
                 fetchedData.body.hits.hits.forEach( (song) => {
                     song = song._source;
                     this.songData.push({
@@ -30,7 +35,8 @@ class SongStore {
                         album: song.album.name,
                         duration: Math.floor(song.duration_ms / 60000),
                         rating: Math.round(song.cumulated_user_review_score / song.total_user_reviews)});
-                    this.wordsForCloud.push(song.artists[0].name)
+                    this.wordsForCloud.push({text: song.name, value: i});
+                    i++;
                 });
                 ListStore.addRows(this.songData);
             });
