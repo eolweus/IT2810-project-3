@@ -67,19 +67,18 @@ class SongStore {
 
     @action createSongRatingAsync = async (model) => {
         try {
-            console.log(model);
             let data = model.split("-");
             let params = {
                 id: data[0],
                 rating: data[1]
             }
-            console.log(params)
-            const response = await this.songService.post(params.id + "?score=" + params.rating);
+            const response = await this.songService.post(model, params.id + "?score=" + params.rating);
             if (response.status === 201) {
                 runInAction(() => {
                     this.status = "success";
                 })
             }
+
         } catch (error) {
             runInAction(() => {
                 this.status = error.toString();
