@@ -38,11 +38,8 @@ class SongStore {
         if(QueryStore.sortOrder !== null) {urlParamsObject['sortOrder'] = QueryStore.sortOrder}
         if(QueryStore.limit !== null) {urlParamsObject['limit'] = QueryStore.limit}
         if(QueryStore.offset !== null) {urlParamsObject['offset'] = QueryStore.offset}
-
         const urlParams = new URLSearchParams(urlParamsObject);
-        console.log(urlParams);
         const data = await this.songService.get(urlParams);
-        console.log(data);
         runInAction(() => {
             this.clearSongData();
             this.clearCloud();
