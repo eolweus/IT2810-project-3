@@ -1,33 +1,21 @@
-import TagCloud from 'react-tag-cloud';
+import ReactWordCloud from 'react-wordcloud';
 import randomColor from 'randomcolor';
 import React, {Component} from 'react';
+import {observer, inject} from "mobx-react";
 
+@inject("SongStore")
+@observer
 class WordCloud extends Component {
+    componentDidMount() {
+        setInterval(() => {
+            this.forceUpdate();
+        }, 3000);
+    }
+
     render() {
+        const {SongStore} = this.props;
         return (
-            <div className='app-outer'>
-                <TagCloud
-                    className='tag-cloud'
-                    style={{
-                        fontFamily: 'sans-serif',
-                        fontSize: () => Math.round(Math.random() * 50) + 16,
-                        color: () => randomColor({
-                            hue: 'blue'
-                        }),
-                        padding: 5,
-                    }}>
-                    <div>Futurama</div>
-                    <div >Transformers</div>
-                    <div >Simpsons</div>
-                    <div >Dragon Ball</div>
-                    <div >Rick & Morty</div>
-                    <div >He man</div>
-                    <div >World trigger</div>
-                    <div >Avengers</div>
-                    <div >Family Guy</div>
-                    <div >American Dad</div>
-                </TagCloud>
-            </div>
+            <ReactWordCloud words={SongStore.wordCloud}/>
         );
     }
 }

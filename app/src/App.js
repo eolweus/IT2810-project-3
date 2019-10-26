@@ -4,6 +4,7 @@ import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import {Container, Grid, CssBaseline, Typography, Paper, AppBar, ListItem, List, OutlinedInput, TextField, Button} from "@material-ui/core";
 import InfinityList from "./components/InfinityList";
 import WordCloud from "./components/WordCloud";
+import DataQuerying from "./components/DataQuerying";
 
 const theme = createMuiTheme({
   palette: {
@@ -69,17 +70,6 @@ const useStyles = makeStyles(theme => ({
 @observer
 class App extends Component{
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const song = this.song.value;
-    this.props.SongStore.addSong(song);
-    //clear input field in order to enable adding more songs
-    this.song.value = "";
-  }
-  filter = (e) => {
-    this.props.SongStore.filter = e.target.value;
-  }
-
   render() {
     const {SongStore} = this.props;
     const classes = useStyles;
@@ -88,11 +78,9 @@ class App extends Component{
         <div className={classes.root} style={{ backgroundColor: theme.palette.primary.main}}>
           <CssBaseline/>
           <Container maxWidth="lg"
-                     justifyContent="center"
-                     justifyItems="center"
           >
-            <Typography component="div" style={{ backgroundColor: theme.palette.primary.light, minHeight: '100vh'}}>
-              <AppBar position="static" style={{backgroundColor: theme.palette.primary.dark, height: '8vh'}}>
+            <Typography style={{ backgroundColor: theme.palette.primary.light, minHeight: '100vh'}}>
+              <AppBar position="static" style={{backgroundColor: theme.palette.primary.dark, minHeight: '8vh'}}>
                 <Typography variant="h3" className={classes.title} align="center">
                   Mind Blowing Playlist Display
                 </Typography>
@@ -101,13 +89,16 @@ class App extends Component{
                 </Typography>
               </AppBar>
 
-              <Paper className={classes.container} elevation={-10}>
+              <Paper className={classes.container}>
                 <Typography className="endless-list" paragraph={true} align="center">
                   <Typography variant="h4" className={classes.subtitle}>
                     Amazing list of Infinity*
                   </Typography>
-                  <Typography className={classes.footnote} variant="subttle2">
+                  <Typography className={classes.footnote} variant="subtitle2">
                     *not actually infinite at all
+                  </Typography>
+                  <Typography className={classes.container}>
+                    <DataQuerying/>
                   </Typography>
                   <Grid item md={12}
                     container
@@ -116,13 +107,10 @@ class App extends Component{
                     justify="center"
                   >
                     <Paper elevation={10}>
-                      <Typography className={classes.container}>
                         <InfinityList/>
-                      </Typography>
                     </Paper>
                   </Grid>
                 </Typography>
-
               </Paper>
 
               <Paper className={classes.container} elevation={12}>
@@ -132,31 +120,6 @@ class App extends Component{
                   </Typography>
                   <Typography className={classes.container}>
                     <WordCloud/>
-                  </Typography>
-                </Typography>
-
-              </Paper>
-
-              <Paper className={classes.container} align="center" elevation={12}>
-                <Typography component="div" className="input-container" >
-                  <TextField label="Filter" className="filter" value={SongStore.filter} onChange={this.filter.bind(this)} margin="dense" variant="outlined"/>
-                  <form className="song-form" onSubmit={e => this.handleSubmit(e)}>
-                    <OutlinedInput type="text" placeholder="Enter song title" variant="outlined" margin="dense" inputRef={input => this.song = input}/>
-                    <Button variant="contained" style={{backgroundColor: theme.palette.secondary.main}} size="medium" onClick={e => this.handleSubmit(e)}>Add Song</Button>
-                  </form>
-                </Typography>
-                <Typography className="data-container">
-                  <Typography variant="h4" className={classes.subtitle} paragraph={true}>
-                    You have {SongStore.songCount} songs in your playlist.
-                  </Typography>
-                  <Typography component="div">
-                    <List>
-                      {SongStore.filteredSongs.map(song => (
-                          <ListItem key={song} divider={true}>
-                            {song}
-                          </ListItem>
-                      ))}
-                    </List>
                   </Typography>
                 </Typography>
               </Paper>

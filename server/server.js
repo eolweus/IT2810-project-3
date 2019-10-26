@@ -1,11 +1,14 @@
 const Queries = require('./queries.js');
 const queries = new Queries();
 const express = require('express');
+const cors = require('cors');
 
-console.log(queries);
 const app = express();
 
 // Load songs from database based on track ID
+app.use(cors());
+
+// Load songs from database
 app.get('/api/tracks/:trackId', (req, res) => {
     queries.getById(req.params.trackId).then((result) => res.json(result)).catch((error) => {
         console.log(error);
@@ -23,14 +26,16 @@ app.get('/api/tracks/:trackId', (req, res) => {
 
 app.get('/api/tracks', (req, res) => {
     console.log(req);
-    const searchString = req.query.searchString;
+    const searchString = (req.query.searchString === undefined ? null : req.query.searchString);
     const limit = (req.query.limit === undefined ? 20 : req.query.limit);
     const offset = (req.query.offset === undefined ? 0 : req.query.offset);
+    const filterBy = (req.query.filterBy === undefined ? 'no' : req.query.filterBy);
+    const greaterThan = (req.query.greaterThan === undefined ? 0 : req.query.greaterThan);
     const sortBy = req.query.sortBy;
     let sortOrder = req.query.sortOrder;
 
     if (sortBy === undefined || sortOrder === undefined) {
-        queries.search(searchString, limit, offset).then((result) => res.json(result)).catch((error) => {
+        queries.search(searchString, limit, offset, filterBy, greaterThan).then((result) => res.json(result)).catch((error) => {
             console.log(error);
             res.send(error)
         });
@@ -43,7 +48,7 @@ app.get('/api/tracks', (req, res) => {
             *@Param {String} sortBy - string describing what to sort some valid inputs are 'popularity', 'album.total_tracks'
             *,'album.release_date', 'duration_ms', 'name.keyword', 'album.name.keyword' */
         sortOrder = (sortOrder === 'asc' ? true : false); // false means desc
-        queries.searchWithSorting(searchString, limit, offset, sortBy, sortOrder).then((result) => res.json(result)).catch((error) => {
+        queries.searchWithSorting(searchString, limit, offset, filterBy, greaterThan, sortBy, sortOrder).then((result) => res.json(result)).catch((error) => {
             console.log(error);
             res.send(error)
         });
