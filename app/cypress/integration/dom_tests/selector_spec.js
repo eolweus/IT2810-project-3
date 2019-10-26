@@ -1,6 +1,7 @@
-describe('Test selector', () => {
-    it('Page has selection', () => {
+/// <reference types="cypress" />
 
+describe('Test page', () => {
+    it('Page has selection', () => {
         cy.visit('http://localhost:3000/')
 
         // 5 is the default number of songs showed at the same time on the page
@@ -9,7 +10,7 @@ describe('Test selector', () => {
         cy.get('.MuiTableBody-root').children().should('have.length', 5)
     })
 
-    it('Is selector clickable', () => {
+    it('Selector updates selection', () => {
 
         // Selects the select menu in which a user can change the number of songs
         // displayed at a time and clicks it so the menu becomes visible in the DOM
@@ -18,11 +19,35 @@ describe('Test selector', () => {
         // Selects the now open menu, selects the option "10" and clicks it.
         cy.get('.MuiPaper-root > .MuiList-root')
         cy.contains(10).click()
-    })
-
-    it('Selector updates selection', () => {
 
         // checks if the selection of 10 updated the number of songs displayed in the table
-        cy.get('.MuiTableBody-root').children().should('have.length', 7)
+        cy.get('.MuiTableBody-root').children().should('have.length', 10)
+
+        // Reruns the test but with 25
+        cy.get('.MuiSelect-root').click()
+        cy.get('.MuiPaper-root > .MuiList-root')
+        cy.contains(25).click()
+        cy.get('.MuiTableBody-root').children().should('have.length', 20)
+    })
+
+    it('Search works', () => {
+
+        // grabs the searchbar, types a search request and presses enter
+        cy.get('input[type=search]')
+            .type('This Is America')
+            .type('{enter}')
+
+        // Checks if the searchstring appears on the page. The seachstring
+        // itself will not trigger this test
+        // .contains is case sensetive
+        cy.contains('This Is America')
+    })
+
+    it('search will not return anything if there are no matches', () => {
+        cy.visit('http://localhost:3000/')
+        cy.get('input[type=search]')
+            .type('jjdfjljslfasljfj')
+            .type('{enter}')
+        cy.get('.MuiTableBody-root').children().should('have.length', 0)
     })
 })
