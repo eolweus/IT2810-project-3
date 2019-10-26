@@ -59,6 +59,7 @@ class SongStore {
             console.log("New request has ran");
             ListStore.addRows(this.songData);
             ListStore.setTotalHits(data.body.hits.total.value);
+            ListStore.setPage(0);
         });
     };
 
