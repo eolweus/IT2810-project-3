@@ -80,7 +80,7 @@ const useStyles = makeStyles(theme => ({
 @observer
 class InfinityList extends Component {
     componentDidMount() {
-        this.props.SongStore.getAllSongsAsync();
+        this.props.SongStore.searchForSongAsync();
     }
 
     handleChangePage = (event, newPage) => {
