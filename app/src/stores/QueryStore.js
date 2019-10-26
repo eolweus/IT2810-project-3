@@ -16,13 +16,17 @@ class QueryStore {
 
     @action setLimit = (limit) => {
         this.limit = limit;
+        SongStore.searchForSongAsync();
+
     }
     @action setOffset = (offset) => {
         this.offset = offset;
+        SongStore.searchForSongAsync();
     }
     @action setFilter = (filterBy, greaterThan) => {
         this.filterBy = filterBy;
         this.greaterThan = greaterThan;
+        SongStore.searchForSongAsync();
     }
 
     @action setSort = (sortBy, sortOrder) => {
