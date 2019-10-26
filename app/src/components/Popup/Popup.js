@@ -1,5 +1,6 @@
 import React from 'react';
 import { observer, inject } from "mobx-react";
+import {Button} from '@material-ui/core'
 import './popup.css';
 
 
@@ -21,7 +22,9 @@ class Popup extends React.Component {
                 <div className='popup\_inner'>
                     <h1>{PopupStore.name}</h1>
                     <img src={PopupStore.image} id="popup_image"></img>
-                    <button onClick={e => PopupStore.hidePopup()}>close me</button>
+                    <div>
+                        <Button variant="contained" onClick={e => PopupStore.hidePopup()}>close me</Button>
+                    </div>
                 </div>
             </div>
         );
