@@ -95,11 +95,8 @@ class InfinityList extends Component {
     };
 
     handleChangeRating = (e) => {
-        try {
-            this.rows[e.target.id].rating = e.target.value;
-        } catch (e) {
-
-        }
+        const {SongStore} = this.props;
+        SongStore.createSongRatingAsync(e.target.id, e.target.value)
 
     };
 
@@ -180,7 +177,7 @@ class InfinityList extends Component {
                             <TableBody>
                                 {ListStore.rows.slice(ListStore.page * ListStore.rowsPerPage, ListStore.page * ListStore.rowsPerPage + ListStore.rowsPerPage)
                                     .map((row, index) => {
-                                        const labelId = `enhanced-table-checkbox-${index}`;
+                                        const labelId = row.id;
 
                                         return (
                                             <TableRow
@@ -193,8 +190,8 @@ class InfinityList extends Component {
                                                 <TableCell align="left">{row.artist}</TableCell>
                                                 <TableCell align="left">{row.album}</TableCell>
                                                 <TableCell align="right">{row.duration}</TableCell>
-                                                <TableCell align="right" id={index}>
-                                                    <Rating name="rating" value={row.rating} precision={1} size="small"
+                                                <TableCell align="right" id={row.id}>
+                                                    <Rating name={row.id} value={row.rating} precision={1} size="small"
                                                             onChange={e => this.handleChangeRating(e)}
                                                     />
                                                 </TableCell>

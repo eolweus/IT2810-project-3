@@ -48,6 +48,7 @@ class SongStore {
             fetchedData.body.hits.hits.forEach( (song) => {
                 song = song._source;
                 this.songData.push({
+                    id: song.id,
                     name: song.name,
                     artist: song.artists[0].name,
                     album: song.album.name,
@@ -65,7 +66,14 @@ class SongStore {
 
     @action createSongRatingAsync = async (model) => {
         try {
-            const response = await this.songService.post(model);
+            console.log(model);
+            let data = model.split("-");
+            let params = {
+                id: data[0],
+                rating: data[1]
+            }
+            console.log(params)
+            const response = await this.songService.post(params.id + "?score=" + params.rating);
             if (response.status === 201) {
                 runInAction(() => {
                     this.status = "success";
