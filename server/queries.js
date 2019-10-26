@@ -44,7 +44,6 @@ class Queries {
             options.body.query.bool['filter'] = {'range':{}};
             options.body.query.bool.filter.range[filterBy] = {'gte': greaterThan};
         }
-        console.log(options.body.query.bool.filter.filterBy)
         return client.search(options);
     }
 
