@@ -56,6 +56,7 @@ class SongStore {
                 this.wordsForCloud.push({text: song.name, value: i});
                 i++;
             });
+            ListStore.setTotalHits(fetchedData.body.hits.total.value);
             ListStore.addRows(this.songData);
         });
     };
