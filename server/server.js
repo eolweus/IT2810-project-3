@@ -1,13 +1,11 @@
 const Queries = require('./queries.js');
 const queries = new Queries();
 const express = require('express');
-const cors = require('cors');
-//const {Client} = require('@elastic/elasticsearch');
-//const client = new Client({node: 'http://localhost:9200'});
 
 console.log(queries);
 const app = express();
 
+// Load songs from database based on track ID
 app.use(cors());
 
 // Load songs from database
@@ -18,6 +16,13 @@ app.get('/api/tracks/:trackId', (req, res) => {
     });
 });
 
+// Load songs from database based on query.
+// Passes in a searchString, a parameter which decides how many songs will load (limit),
+// An offset used to decide what song number in the resultset is the first in the songs displayed,
+// sortBy, which decides on what variable the result set will be sorted on
+// and what order to sort in (ascending/descending)
+
+//By default sortBy will sort on overall relevance of the search based on the fields searched
 
 app.get('/api/tracks', (req, res) => {
     console.log(req);
@@ -50,11 +55,11 @@ app.get('/api/tracks', (req, res) => {
 });
 
 
-// Update rating of a song
+// Update rating of a song based on Track ID
 app.post('/api/tracks/:trackId', (req, res) => {
     const trackId = req.params.trackId;
     const score = parseInt(req.query.score);
-    if(!(score>=1 && score <=5)){
+    if (!(score >= 1 && score <= 5)) {
         res.status(400);
         res.send("score query param is required and must be in range 1 and 5");
     }
@@ -65,7 +70,9 @@ app.post('/api/tracks/:trackId', (req, res) => {
 
 });
 
-// Denne må endres. Bruker 5000 midlertidig for å ha noe å kjøre lokalt
+//TODO lage filtreringsfunksjon
+
+//TODO Denne må endres. Bruker 5000 midlertidig for å ha noe å kjøre lokalt
 const port = 5000;
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

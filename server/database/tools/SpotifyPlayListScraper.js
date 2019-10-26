@@ -12,7 +12,7 @@ let options = {
     },
     json: true
 };
-let tracklist = [];
+let tracklist = []; //All tracks will be added as Objects
 
 function playlistIdToUrl(playlistID) {
     return 'https://api.spotify.com/v1/playlists/' + playlistID + '/tracks';
@@ -22,7 +22,7 @@ function addSpotifyApiDataToJSON(url) {
     return new Promise(function (resolve, reject) {
 
 
-        https.get(url, options, (res) => {
+        https.get(url, options, (res) => { //Will go through all the tracks in the playlist and add it to the tracklist variable
             let buffers = [];
             res.on('data', (chunk) => {
                 buffers.push(chunk);
@@ -36,8 +36,8 @@ function addSpotifyApiDataToJSON(url) {
                 }
 
                 );
-                if(json.next != null){
-                    await addSpotifyApiDataToJSON(json.next);
+                if(json.next != null){ //Spotify will return max 100 tracks in a single request but will include a link for the next 100 tracks if available
+                    await addSpotifyApiDataToJSON(json.next); //json.next is the link to the next 100 tracks. await "forces" the line to run syncronously.
                 }
                 resolve("Success")
             });
