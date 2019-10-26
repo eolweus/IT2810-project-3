@@ -1,25 +1,10 @@
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {createMuiTheme, lighten, makeStyles} from '@material-ui/core/styles';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow,
-    TablePagination,
-    TableSortLabel,
-    Toolbar,
-    Typography,
-    Paper,
-    IconButton,
-    Tooltip,
-    FormControlLabel,
-    Switch
-} from '@material-ui/core';
-import React, {Component} from "react";
+import { createMuiTheme, lighten, makeStyles } from '@material-ui/core/styles';
+import { Table, TableBody, TableCell, TableHead, TableRow, TablePagination, TableSortLabel, Toolbar, Typography, Paper, IconButton, Tooltip, FormControlLabel, Switch } from '@material-ui/core';
+import React, { Component } from "react";
 import Rating from '@material-ui/lab/Rating';
-import {observer, inject} from "mobx-react";
+import { observer, inject } from "mobx-react";
 
 const theme = createMuiTheme({
     palette: {
@@ -57,6 +42,8 @@ const useToolbarStyles = makeStyles(theme => ({
         flex: '1 1 100%',
     },
 }));
+
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -97,7 +84,7 @@ class InfinityList extends Component {
     }
 
     createData(name, artist, album, duration, rating) {
-        return {name, artist, album, duration, rating};
+        return { name, artist, album, duration, rating };
     }
 
     stableSort(array, cmp) {
@@ -152,16 +139,17 @@ class InfinityList extends Component {
     };
 
     EnhancedTableHead(props) {
-        const {classes, order, orderBy, rowCount, onRequestSort} = props;
+        const { classes, order, orderBy, rowCount, onRequestSort } = props;
         const createSortHandler = property => event => {
-            onRequestSort(event, property);};
+            onRequestSort(event, property);
+        };
 
         const headCells = [
-            {id: 'name', numeric: false, disablePadding: false, label: 'Title'},
-            {id: 'artist', numeric: false, disablePadding: false, label: 'Artist'},
-            {id: 'album', numeric: false, disablePadding: false, label: 'Album'},
-            {id: 'duration', numeric: true, disablePadding: false, label: 'Duration'},
-            {id: 'rating', numeric: true, disablePadding: false, label: 'Rating'},
+            { id: 'name', numeric: false, disablePadding: false, label: 'Title' },
+            { id: 'artist', numeric: false, disablePadding: false, label: 'Artist' },
+            { id: 'album', numeric: false, disablePadding: false, label: 'Album' },
+            { id: 'duration', numeric: true, disablePadding: false, label: 'Duration' },
+            { id: 'rating', numeric: true, disablePadding: false, label: 'Rating' },
         ];
 
         return (
@@ -199,14 +187,6 @@ class InfinityList extends Component {
         const {SongStore} = this.props;
         const classes = useStyles;
 
-        const [order] = [ListStore.order];
-        const setOrder = ListStore.setOrder;
-        const [orderBy, setOrderBy] = [ListStore.orderBy, ListStore.setOrderBy];
-        const [page, serPage] = [ListStore.page, ListStore.setPage];
-        const [rowsPerPage, setRowsPerPage] = [ListStore.rowsPerPage, ListStore.setRowsPerPage];
-
-        const rows = ListStore.rows;
-
         this.EnhancedTableHead.propTypes = {
             classes: PropTypes.object.isRequired,
             onRequestSort: PropTypes.func.isRequired,
@@ -215,8 +195,7 @@ class InfinityList extends Component {
             rowCount: PropTypes.number.isRequired,
         };
 
-        const rowLength = 80;
-
+        const rowLength = ListStore.rowCount;
 
         return (
             <div className={classes.root}>
@@ -227,11 +206,11 @@ class InfinityList extends Component {
                             size={'medium'}
                             aria-label="enhanced table"
                         >{this.EnhancedTableHead(
-                            [classes, order, orderBy, rowLength, this.handleRequestSort]
+                            {classes: classes, order: ListStore.order, orderBy: ListStore.orderBy, rowCount: rowLength, onRequestSort: this.handleRequestSort}
                         )}
                             <TableBody>
-                                {this.stableSort(rows, this.getSorting(ListStore.order, ListStore.orderBy))
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                {this.stableSort(ListStore.rows, this.getSorting(ListStore.order, ListStore.orderBy))
+                                    .slice(ListStore.page * ListStore.rowsPerPage, ListStore.page * ListStore.rowsPerPage + ListStore.rowsPerPage)
                                     .map((row, index) => {
                                         const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -260,9 +239,9 @@ class InfinityList extends Component {
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
+                        count={ListStore.rowCount}
+                        rowsPerPage={ListStore.rowsPerPage}
+                        page={ListStore.page}
                         backIconButtonProps={{
                             'aria-label': 'previous page',
                         }}

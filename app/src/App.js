@@ -78,7 +78,7 @@ class App extends Component{
           <CssBaseline/>
           <Container maxWidth="lg"
           >
-            <Typography component="div" style={{ backgroundColor: theme.palette.primary.light, minHeight: '100vh'}}>
+            <Typography style={{ backgroundColor: theme.palette.primary.light, minHeight: '100vh'}}>
               <AppBar position="static" style={{backgroundColor: theme.palette.primary.dark, minHeight: '8vh'}}>
                 <Typography variant="h3" className={classes.title} align="center">
                   Mind Blowing Playlist Display
@@ -93,7 +93,7 @@ class App extends Component{
                   <Typography variant="h4" className={classes.subtitle}>
                     Amazing list of Infinity*
                   </Typography>
-                  <Typography className={classes.footnote} variant="subttle2">
+                  <Typography className={classes.footnote} variant="subtitle2">
                     *not actually infinite at all
                   </Typography>
                   <Grid item md={12}
