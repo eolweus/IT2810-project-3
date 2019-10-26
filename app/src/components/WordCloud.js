@@ -7,9 +7,9 @@ import {observer, inject} from "mobx-react";
 @observer
 class WordCloud extends Component {
     componentDidMount() {
-        setInterval(() => {
-            this.forceUpdate();
-        }, 3000);
+
+        this.forceUpdate();
+
     }
 
     render() {

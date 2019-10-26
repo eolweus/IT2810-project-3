@@ -5,27 +5,31 @@ class ListStore {
     @observable rows = [];
     @observable page;
     @observable rowsPerPage;
-    @observable order;
-    @observable orderBy;
+    // @observable order;
+    // @observable orderBy;
     @observable totalHits = 0;
 
     fetchedRows = [];
 
     constructor() {
         this.page = 0;
-        this.rowsPerPage = 10;
-        this.order = 'asc';
-        this.orderBy = 'Title';
+        this.rowsPerPage = 5;
     }
 
     @action addRows = (rows) => {
         this.fetchedRows = rows;
         this.populateRows();
-    }
+    };
 
     @action populateRows = () => {
-        this.rows = this.fetchedRows
-    }
+        this.rows = this.fetchedRows;
+        console.log(this.rows);
+    };
+    @action addElementsToList = (newElements) => {
+
+        //newElements.forEach((element) => this.list.push(element));
+        console.log("ListStore list: " + this.rows);
+    };
 
     @action setOrder = (order, orderBy) => {
         QueryStore.setSort(order, orderBy);
@@ -34,6 +38,11 @@ class ListStore {
     }
 
     @action setPage = (page) => {
+        this.page = page;
+        console.log("From ListStore" + page);
+        QueryStore.setOffset(page*this.rowsPerPage);
+    }
+    @action setPageWithoutDbCall = (page) => {
         this.page = page;
     }
 
