@@ -7,9 +7,10 @@ import * as serviceWorker from './serviceWorker';
 import {Provider} from "mobx-react";
 import SongStore from "./stores/SongStore";
 import ListStore from "./stores/ListStore";
+import QueryStore from "./stores/QueryStore";
 
 const Root = (
-    <Provider SongStore={SongStore} ListStore={ListStore}>
+    <Provider SongStore={SongStore} ListStore={ListStore} QueryStore={QueryStore}>
         <App/>
     </Provider>
 );

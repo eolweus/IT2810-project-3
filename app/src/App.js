@@ -4,6 +4,7 @@ import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import {Container, Grid, CssBaseline, Typography, Paper, AppBar, ListItem, List, OutlinedInput, TextField, Button} from "@material-ui/core";
 import InfinityList from "./components/InfinityList";
 import WordCloud from "./components/WordCloud";
+import DataQuerying from "./components/DataQuerying";
 
 const theme = createMuiTheme({
   palette: {
@@ -96,6 +97,9 @@ class App extends Component{
                   <Typography className={classes.footnote} variant="subtitle2">
                     *not actually infinite at all
                   </Typography>
+                  <Typography className={classes.container}>
+                    <DataQuerying/>
+                  </Typography>
                   <Grid item md={12}
                     container
                     alignContent="center"
@@ -103,9 +107,7 @@ class App extends Component{
                     justify="center"
                   >
                     <Paper elevation={10}>
-                      <Typography className={classes.container}>
                         <InfinityList/>
-                      </Typography>
                     </Paper>
                   </Grid>
                 </Typography>

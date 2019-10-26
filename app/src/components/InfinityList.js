@@ -83,34 +83,6 @@ class InfinityList extends Component {
         this.props.SongStore.getAllSongsAsync();
     }
 
-    createData(name, artist, album, duration, rating) {
-        return { name, artist, album, duration, rating };
-    }
-
-    stableSort(array, cmp) {
-        const stabilizedThis = array.map((el, index) => [el, index]);
-        stabilizedThis.sort((a, b) => {
-            const order = cmp(a[0], b[0]);
-            if (order !== 0) return order;
-            return a[1] - b[1];
-        });
-        return stabilizedThis.map(el => el[0]);
-    }
-
-    getSorting(order, orderBy) {
-        return order === 'desc' ? (a, b) => this.desc(a, b, orderBy) : (a, b) => -this.desc(a, b, orderBy);
-    }
-
-    desc(a, b, orderBy) {
-        if (b[orderBy] < a[orderBy]) {
-            return -1;
-        }
-        if (b[orderBy] > a[orderBy]) {
-            return 1;
-        }
-        return 0;
-    }
-
     handleChangePage = (event, newPage) => {
         const {ListStore} = this.props;
         ListStore.setPage(newPage);
@@ -134,8 +106,7 @@ class InfinityList extends Component {
     handleRequestSort = (event, property) => {
         const {ListStore} = this.props;
         const isDesc = ListStore.orderBy === property && ListStore.order === 'desc';
-        ListStore.setOrder(isDesc ? 'asc' : 'desc');
-        ListStore.setOrderBy(property);
+        ListStore.setOrder(isDesc ? 'asc' : 'desc', property);
     };
 
     EnhancedTableHead(props) {
@@ -183,7 +154,6 @@ class InfinityList extends Component {
 
     render() {
         const {ListStore} = this.props;
-        const {SongStore} = this.props;
         const classes = useStyles;
 
         this.EnhancedTableHead.propTypes = {
@@ -208,8 +178,7 @@ class InfinityList extends Component {
                             {classes: classes, order: ListStore.order, orderBy: ListStore.orderBy, rowCount: rowLength, onRequestSort: this.handleRequestSort}
                         )}
                             <TableBody>
-                                {this.stableSort(ListStore.rows, this.getSorting(ListStore.order, ListStore.orderBy))
-                                    .slice(ListStore.page * ListStore.rowsPerPage, ListStore.page * ListStore.rowsPerPage + ListStore.rowsPerPage)
+                                {ListStore.rows.slice(ListStore.page * ListStore.rowsPerPage, ListStore.page * ListStore.rowsPerPage + ListStore.rowsPerPage)
                                     .map((row, index) => {
                                         const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -223,7 +192,7 @@ class InfinityList extends Component {
                                                 </TableCell>
                                                 <TableCell align="left">{row.artist}</TableCell>
                                                 <TableCell align="left">{row.album}</TableCell>
-                                                <TableCell align="right">{row.duration} min</TableCell>
+                                                <TableCell align="right">{row.duration}</TableCell>
                                                 <TableCell align="right" id={index}>
                                                     <Rating name="rating" value={row.rating} precision={1} size="small"
                                                             onChange={e => this.handleChangeRating(e)}

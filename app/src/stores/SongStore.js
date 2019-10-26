@@ -5,8 +5,10 @@ import QueryStore from './QueryStore';
 
 class SongStore {
     @observable songData =[];
+    @observable wordsForCloud = [];
     @observable status;
     @observable initialQuery;
+
 
     constructor() {
         this.songService = new SongService();
@@ -17,8 +19,6 @@ class SongStore {
     @action getAllSongsAsync = async () => {
         try {
             const urlParams = new URLSearchParams(Object.entries(this.initialQuery));
-
-            console.log(urlParams);
             const data = await this.songService.get(urlParams)
             runInAction(() => {
                 let fetchedData = data;
@@ -29,7 +29,8 @@ class SongStore {
                         artist: song.artists[0].name,
                         album: song.album.name,
                         duration: Math.floor(song.duration_ms / 60000),
-                        rating: Math.round(song.cumulated_user_review_score / song.total_user_reviews)})
+                        rating: Math.round(song.cumulated_user_review_score / song.total_user_reviews)});
+                    this.wordsForCloud.push(song.artists[0].name)
                 });
                 ListStore.addRows(this.songData);
             });

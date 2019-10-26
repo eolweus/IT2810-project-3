@@ -1,19 +1,20 @@
 import {observable, action, computed} from "mobx";
+import QueryStore from './QueryStore'
 
 class ListStore {
     @observable rows = [];
-    @observable order;
-    @observable orderBy;
     @observable page;
     @observable rowsPerPage;
+    @observable order;
+    @observable orderBy;
 
     fetchedRows = [];
 
     constructor() {
-        this.order = 'asc';
-        this.orderBy = 'title';
         this.page = 0;
         this.rowsPerPage = 5;
+        this.order = 'asc';
+        this.orderBy = 'Title';
     }
 
     @action addRows = (rows) => {
@@ -25,12 +26,10 @@ class ListStore {
         this.rows = this.fetchedRows
     }
 
-    @action setOrder = (order) => {
-        this.order = order;
-    }
-
-    @action setOrderBy = (orderBy) => {
-        this.orderBy = orderBy;
+    @action setOrder = (order, orderBy) => {
+        QueryStore.setSort(order, orderBy)
+        this.order = QueryStore.sortOrder;
+        this.orderBy = QueryStore.sortBy;
     }
 
     @action setPage = (page) => {
