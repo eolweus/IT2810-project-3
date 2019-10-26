@@ -223,7 +223,7 @@ class InfinityList extends Component {
                                                 </TableCell>
                                                 <TableCell align="left">{row.artist}</TableCell>
                                                 <TableCell align="left">{row.album}</TableCell>
-                                                <TableCell align="right">{row.duration}</TableCell>
+                                                <TableCell align="right">{row.duration} min</TableCell>
                                                 <TableCell align="right" id={index}>
                                                     <Rating name="rating" value={row.rating} precision={1} size="small"
                                                             onChange={e => this.handleChangeRating(e)}
