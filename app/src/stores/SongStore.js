@@ -1,25 +1,28 @@
 import {observable, action, computed, async, runInAction} from "mobx";
 import SongService from "./SongService";
 import ListStore from './ListStore';
+import QueryStore from './QueryStore';
 
 class SongStore {
     @observable songData =[];
-    @observable status = "initial";
-    @observable initalQuery = "muse";
+    @observable status;
     @observable query = "";
 
     constructor() {
         this.songService = new SongService();
+        this.status = "initial";
+        this.query = "lil wayne";
     }
 
     @action setQuery = (string) => {
         this.query = string;
     }
 
-    @action getAllSongsAsync = async () => {
+    @action getSongsAsync = async () => {
         try {
+
             let params = {
-                searchString: this.initalQuery
+                searchString: this.query
             }
             const urlParams = new URLSearchParams(Object.entries(params));
             const data = await this.songService.get(urlParams)
@@ -44,17 +47,25 @@ class SongStore {
         }
     };
 
-    @action getSpecifiedSongsAsync = async () => {
+    @action getFilteredSongsAsync = async () => {
         try {
+            let queryString = QueryStore.getQueryString();
             let params = {
-                name: this.songData.name,
-                query: this.query,
+                searchString: queryString[0],
+                limit: queryString[1],
+                offset: queryString[2],
+                filterBy: queryString[3],
+                greaterThan: queryString[4],
+                sortBy: queryString[5],
+                sortOrder: queryString[6]
+
             }
             const urlParams = new URLSearchParams(Object.entries(params));
             const data = await this.songService.get(urlParams)
             runInAction(() => {
                 this.songData = data;
             });
+            QueryStore.clearFilter();
         } catch (error) {
             runInAction(() => {
                 this.status = "error";
