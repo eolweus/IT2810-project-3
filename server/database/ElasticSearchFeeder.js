@@ -20,6 +20,7 @@ async function feed() {
         track['total_user_reviews'] = 0;
         track['cumulated_user_review_score'] = 0;
         track['average_user_rating'] = 0.000000001;
+        track['first_artist'] = track.artists[0];
         return [{index: {_index: 'tracks', '_id': track.id}}, track];
     });
     const {body: bulkresponse} = await client.bulk({refresh: true, body}).then(console.log("Successfully added tracks"));
