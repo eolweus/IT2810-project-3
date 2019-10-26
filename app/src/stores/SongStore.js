@@ -82,6 +82,7 @@ class SongStore {
             data.body.hits.hits.forEach( (song) => {
                 song = song._source;
                 this.songData.push({
+                    id: song.id,
                     name: song.name,
                     artist: song.artists[0].name,
                     album: song.album.name,
