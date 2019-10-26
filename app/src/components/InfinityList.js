@@ -187,14 +187,6 @@ class InfinityList extends Component {
         const {SongStore} = this.props;
         const classes = useStyles;
 
-        const [order]= [ListStore.order];
-        const setOrder = ListStore.setOrder;
-        const [orderBy, setOrderBy] = [ListStore.orderBy, ListStore.setOrderBy];
-        const [page, serPage] = [ListStore.page, ListStore.setPage];
-        const [rowsPerPage, setRowsPerPage] = [ListStore.rowsPerPage, ListStore.setRowsPerPage];
-
-        const rows = ListStore.rows;
-
         this.EnhancedTableHead.propTypes = {
             classes: PropTypes.object.isRequired,
             onRequestSort: PropTypes.func.isRequired,
@@ -203,9 +195,7 @@ class InfinityList extends Component {
             rowCount: PropTypes.number.isRequired,
         };
 
-        const rowLength = 80;
-
-        const hrs = this.handleRequestSort();
+        const rowLength = ListStore.rowCount;
 
         return (
             <div className={classes.root}>
@@ -216,11 +206,11 @@ class InfinityList extends Component {
                             size={'medium'}
                             aria-label="enhanced table"
                         >{this.EnhancedTableHead(
-                            [classes, order, orderBy, rowLength, this.handleRequestSort]
+                            {classes: classes, order: ListStore.order, orderBy: ListStore.orderBy, rowCount: rowLength, onRequestSort: this.handleRequestSort}
                         )}
                             <TableBody>
-                                {this.stableSort(rows, this.getSorting(ListStore.order, ListStore.orderBy))
-                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                {this.stableSort(ListStore.rows, this.getSorting(ListStore.order, ListStore.orderBy))
+                                    .slice(ListStore.page * ListStore.rowsPerPage, ListStore.page * ListStore.rowsPerPage + ListStore.rowsPerPage)
                                     .map((row, index) => {
                                         const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -249,9 +239,9 @@ class InfinityList extends Component {
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
+                        count={ListStore.rowCount}
+                        rowsPerPage={ListStore.rowsPerPage}
+                        page={ListStore.page}
                         backIconButtonProps={{
                             'aria-label': 'previous page',
                         }}

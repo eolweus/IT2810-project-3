@@ -31,7 +31,7 @@ class SongStore {
                         name: song.name,
                         artist: song.artists[0].name,
                         album: song.album.name,
-                        duration: Math.round(song.duration_ms / 60000),
+                        duration: Math.floor(song.duration_ms / 60000),
                         rating: Math.round(song.cumulated_user_review_score / song.total_user_reviews)})
                 });
                 ListStore.addRows(this.songData);

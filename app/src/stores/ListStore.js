@@ -41,6 +41,10 @@ class ListStore {
         this.rowsPerPage = rowsPerPage;
     }
 
+    @computed get rowCount() {
+        return this.rows.length;
+    }
+
 
 
 }
