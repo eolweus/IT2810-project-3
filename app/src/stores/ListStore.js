@@ -12,7 +12,7 @@ class ListStore {
 
     constructor() {
         this.page = 0;
-        this.rowsPerPage = 5;
+        this.rowsPerPage = 10;
         this.order = 'asc';
         this.orderBy = 'Title';
     }
@@ -27,7 +27,7 @@ class ListStore {
     }
 
     @action setOrder = (order, orderBy) => {
-        QueryStore.setSort(order, orderBy)
+        QueryStore.setSort(order, orderBy);
         this.order = QueryStore.sortOrder;
         this.orderBy = QueryStore.sortBy;
     }
@@ -38,6 +38,7 @@ class ListStore {
 
     @action setRowsPerPage = (rowsPerPage) => {
         this.rowsPerPage = rowsPerPage;
+        QueryStore.setLimit(rowsPerPage);
     }
 
     @computed get rowCount() {
