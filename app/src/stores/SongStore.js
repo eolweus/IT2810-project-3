@@ -3,8 +3,7 @@ import SongService from "./SongService";
 import ListStore from './ListStore';
 import QueryStore from './QueryStore';
 
-
-export class SongStore {
+class SongStore {
     @observable songData =[];
     @observable wordsForCloud = [];
     @observable status;
@@ -17,6 +16,14 @@ export class SongStore {
         this.initialQuery = "";
     }
 
+    @computed get wordCloud() {
+        return this.wordsForCloud;
+    }
+
+    @action clearSongData = () => {
+        this.songData = [];
+    }
+
     @action searchForSongAsync = async () => {
         let urlParamsString = '';
         if(QueryStore.searchString !== null) { urlParamsString += 'searchString=' + QueryStore.searchString};
@@ -26,7 +33,9 @@ export class SongStore {
         const data = await this.songService.get(urlParams);
         console.log(data);
         runInAction(() => {
+            this.clearSongData();
             let fetchedData = data;
+            let i = 0;
             fetchedData.body.hits.hits.forEach( (song) => {
                 song = song._source;
                 this.songData.push({
@@ -35,7 +44,8 @@ export class SongStore {
                     album: song.album.name,
                     duration: Math.floor(song.duration_ms / 60000),
                     rating: Math.round(song.cumulated_user_review_score / song.total_user_reviews)});
-                this.wordsForCloud.push(song.artists[0].name)
+                this.wordsForCloud.push({text: song.name, value: i});
+                i++;
             });
             ListStore.addRows(this.songData);
         });
@@ -45,7 +55,9 @@ export class SongStore {
             const urlParams = new URLSearchParams(Object.entries(this.initialQuery));
             const data = await this.songService.get(urlParams)
             runInAction(() => {
+                this.clearSongData();
                 let fetchedData = data;
+                let i = 0;
                 fetchedData.body.hits.hits.forEach( (song) => {
                     song = song._source;
                     this.songData.push({
@@ -54,7 +66,8 @@ export class SongStore {
                         album: song.album.name,
                         duration: Math.floor(song.duration_ms / 60000),
                         rating: Math.round(song.cumulated_user_review_score / song.total_user_reviews)});
-                    this.wordsForCloud.push(song.artists[0].name)
+                    this.wordsForCloud.push({text: song.name, value: i});
+                    i++;
                 });
                 ListStore.addRows(this.songData);
             });
@@ -83,6 +96,7 @@ export class SongStore {
             const data = await this.songService.get(urlParams)
             runInAction(() => {
                 let fetchedData = data;
+                this.clearSongData()
                 fetchedData.body.hits.hits.forEach( (song) => {
                     song = song._source;
                     this.songData.push({
