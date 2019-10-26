@@ -57,14 +57,14 @@ class DataQuerying extends Component {
                                 if (this.state.checkedFilterHasReviews) {
                                     QueryStore.setFilter(null, null);
                                 } else {
-                                    QueryStore.setFilter('total_user_reviews', 1);
+                                    QueryStore.setFilter('total_user_reviews', 3);
                                 }
                             }}
                             value="filterHasReview"
                             color="secondary"
                         />
                     }
-                    label="Has user reviews"
+                    label="Has high user reviews"
                 />
                 <TextField
                     id="outlined-search"

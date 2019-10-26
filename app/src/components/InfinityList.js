@@ -112,8 +112,8 @@ class InfinityList extends Component {
 
     handleRequestSort = (event, property) => {
         const {ListStore} = this.props;
-        const isAsc = ListStore.orderBy === property && ListStore.order === 'asc';
-        ListStore.setOrder(isAsc ? 'asc' : 'desc', property);
+        const isAsc = ListStore.order === 'asc';
+        ListStore.setOrder(property, isAsc ? 'desc' : 'asc');
 
     };
 
@@ -124,11 +124,11 @@ class InfinityList extends Component {
         };
 
         const headCells = [
-            {id: 'name', numeric: false, disablePadding: false, label: 'Title'},
-            {id: 'artist', numeric: false, disablePadding: false, label: 'Artist'},
-            {id: 'album', numeric: false, disablePadding: false, label: 'Album'},
-            {id: 'duration', numeric: true, disablePadding: false, label: 'Duration'},
-            {id: 'rating', numeric: true, disablePadding: false, label: 'Rating'},
+            {id: 'name.keyword', numeric: false, disablePadding: false, label: 'Title'},
+            {id: 'first_artist.name.keyword', numeric: false, disablePadding: false, label: 'Artist'},
+            {id: 'album.name.keyword', numeric: false, disablePadding: false, label: 'Album'},
+            {id: 'duration_ms', numeric: true, disablePadding: false, label: 'Duration'},
+            {id: 'average_user_rating', numeric: true, disablePadding: false, label: 'Rating'},
         ];
 
         return (

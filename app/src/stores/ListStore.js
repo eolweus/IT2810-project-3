@@ -5,8 +5,7 @@ class ListStore {
     @observable rows = [];
     @observable page;
     @observable rowsPerPage;
-    // @observable order;
-    // @observable orderBy;
+    @observable order = 'asc';
     @observable totalHits = 0;
 
     fetchedRows = [];
@@ -34,7 +33,6 @@ class ListStore {
     @action setOrder = (order, orderBy) => {
         QueryStore.setSort(order, orderBy);
         this.order = QueryStore.sortOrder;
-        this.orderBy = QueryStore.sortBy;
     }
 
     @action setPage = (page) => {
