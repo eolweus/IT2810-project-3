@@ -102,7 +102,7 @@ class Queries {
             'body': {
                 "script": {
                     "source":
-                        "ctx._source.total_user_reviews += 1; ctx._source.cumulated_user_review_score += params.review_score; ctx._source.average_user_rating = ctx._source.cumulated_user_review_score / ctx._source.total_user_reviews", //This script will run on the database
+                        "ctx._source.total_user_reviews += 1; ctx._source.cumulated_user_review_score += params.review_score; ctx._source.average_user_rating = (float)ctx._source.cumulated_user_review_score / (float)ctx._source.total_user_reviews", //This script will run on the database
                     "lang": "painless", //painless is a language developed for elasticsearch
                     "params": {// parameters passed to the script
                         "review_score": score
