@@ -9,7 +9,7 @@ class WordCloud extends Component {
     componentDidMount() {
         setInterval(() => {
             this.forceUpdate();
-        }, 3000);
+        }, 8000);
     }
 
     render() {
