@@ -29,11 +29,17 @@ class SongStore {
     }
 
     @action searchForSongAsync = async () => {
-        let urlParamsString = '';
+        let urlParamsObject = {};
         this.clearSongData();
-        if(QueryStore.searchString !== null) { urlParamsString += 'searchString=' + QueryStore.searchString};
-        console.log(urlParamsString);
-        const urlParams = new URLSearchParams(urlParamsString);
+        if(QueryStore.searchString !== null) { urlParamsObject['searchString'] = QueryStore.searchString}
+        if(QueryStore.filterBy !== null) {urlParamsObject['filterBy'] = QueryStore.filterBy}
+        if(QueryStore.greaterThan !== null) {urlParamsObject['greaterThan'] = QueryStore.greaterThan}
+        if(QueryStore.sortBy !== null) {urlParamsObject['sortBy'] = QueryStore.sortBy}
+        if(QueryStore.sortOrder !== null) {urlParamsObject['sortOrder'] = QueryStore.sortOrder}
+        if(QueryStore.limit !== null) {urlParamsObject['limit'] = QueryStore.limit}
+        if(QueryStore.offset !== null) {urlParamsObject['offset'] = QueryStore.offset}
+
+        const urlParams = new URLSearchParams(urlParamsObject);
         console.log(urlParams);
         const data = await this.songService.get(urlParams);
         console.log(data);
