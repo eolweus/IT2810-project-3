@@ -24,8 +24,13 @@ class SongStore {
         this.songData = [];
     }
 
+    @action clearCloud = () => {
+        this.wordsForCloud = [];
+    }
+
     @action searchForSongAsync = async () => {
         let urlParamsString = '';
+        this.clearSongData();
         if(QueryStore.searchString !== null) { urlParamsString += 'searchString=' + QueryStore.searchString};
         console.log(urlParamsString);
         const urlParams = new URLSearchParams(urlParamsString);
@@ -33,7 +38,8 @@ class SongStore {
         const data = await this.songService.get(urlParams);
         console.log(data);
         runInAction(() => {
-            this.clearSongData();
+
+            this.clearCloud();
             let fetchedData = data;
             let i = 0;
             fetchedData.body.hits.hits.forEach( (song) => {
@@ -93,7 +99,7 @@ class SongStore {
 
             }
             const urlParams = new URLSearchParams(Object.entries(params));
-            const data = await this.songService.get(urlParams)
+            const data = await this.songService.get(urlParams);
             runInAction(() => {
                 let fetchedData = data;
                 this.clearSongData()
