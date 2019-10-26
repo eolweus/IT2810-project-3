@@ -26,7 +26,7 @@ app.get('/api/tracks/:trackId', (req, res) => {
 
 app.get('/api/tracks', (req, res) => {
     console.log(req);
-    const searchString = req.query.searchString;
+    const searchString = (req.query.searchString === undefined ? null : req.query.searchString);
     const limit = (req.query.limit === undefined ? 20 : req.query.limit);
     const offset = (req.query.offset === undefined ? 0 : req.query.offset);
     const filterBy = (req.query.filterBy === undefined ? 'no' : req.query.filterBy);
