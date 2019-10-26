@@ -6,15 +6,19 @@ import QueryStore from './QueryStore';
 class SongStore {
     @observable songData =[];
     @observable status;
+    @observable initialQuery;
 
     constructor() {
         this.songService = new SongService();
         this.status = "initial";
+        this.initialQuery = "";
     }
 
     @action getAllSongsAsync = async () => {
         try {
-            const urlParams = new URLSearchParams(Object.entries());
+            const urlParams = new URLSearchParams(Object.entries(this.initialQuery));
+
+            console.log(urlParams);
             const data = await this.songService.get(urlParams)
             runInAction(() => {
                 let fetchedData = data;
