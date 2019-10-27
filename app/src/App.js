@@ -97,7 +97,7 @@ class App extends Component{
                     Amazing list of Infinity*
                   </Typography>
                   <Typography className={classes.footnote} variant="subtitle2">
-                    *not actually infinite at all
+                    *not actually infinite at all, but pretty neat nonetheless
                   </Typography>
                   <Typography className={classes.container}>
                     <DataQuerying/>
