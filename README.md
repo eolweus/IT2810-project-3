@@ -1,7 +1,7 @@
 # Assignment 3
 
 ## User guide to run locally
-<br>
+
 #### Required software
 1. Node.js (12.10.0 is confirmed to work, version 10 will not)
 2. Yarn
