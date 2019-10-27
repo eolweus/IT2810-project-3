@@ -1,19 +1,44 @@
 /// <reference types="cypress" />
 
 describe('Content exists on page', () => {
-    it('Page has selection', () => {
+
+    // beforeEach(() => {
+    //     cy.visit('http://localhost:3000/')
+    // })
+
+    it('Page has content initially', () => {
         cy.visit('http://localhost:3000/')
 
-        // 5 is the default number of songs showed at the same time on the page
         // This test selects the table containing the songs in the DOM and verifies
-        // That the number of songs (children elements of the table) initially displayed is 5
-        cy.get('.MuiTableBody-root').children().should('have.length', 5)
+        // That there is at least one song displayed (children element of the table)
+        cy.get('.MuiTableBody-root').children().should('exist')
+    })
+
+    it('Additional information shown on click', () => {
+
+        // Tests that there is no image (Additional information) displayed before
+        // interaction
+        cy.get('img[id=popup_image]').should('not.exist')
+
+        // Gets the first cell of every row, targets the first (top) one of them,
+        // and clicks it
+        cy.get('th[class="MuiTableCell-root MuiTableCell-body"]').first().click()
+
+        // Verifies that an image has appeared
+        cy.get('img[id=popup_image]').should('exist')
+    })
+
+    it('Additional information removed on "close" click', () => {
+
+        // Finds and presses the close button, then verifies that the image is gone
+        cy.contains('close').click()
+        cy.get('img[id=popup_image]').should('not.exist')
     })
 
     it('Selector updates selection', () => {
 
         // Selects the select menu in which a user can change the number of songs
-        // displayed at a time and clicks it so the menu becomes visible in the DOM
+        // displayed simultaneously, and clicks it so the menu becomes visible in the DOM
         cy.get('.MuiSelect-root').click()
 
         // Selects the now open menu, selects the option "10" and clicks it.
@@ -23,11 +48,6 @@ describe('Content exists on page', () => {
         // checks if the selection of 10 updated the number of songs displayed in the table
         cy.get('.MuiTableBody-root').children().should('have.length', 10)
 
-        // Reruns the test but with 25
-        cy.get('.MuiSelect-root').click()
-        cy.get('.MuiPaper-root > .MuiList-root')
-        cy.contains(25).click()
-        cy.get('.MuiTableBody-root').children().should('have.length', 25)
     })
 
     it('Search works', () => {
@@ -43,13 +63,16 @@ describe('Content exists on page', () => {
         cy.contains('This Is America')
     })
 
+    // Tests if anything is shown if there are no matches input
     it('search will not return anything if there are no matches', () => {
-
-        // Tests if anything is shown with random garbage input
         cy.visit('http://localhost:3000/')
+
         cy.get('input[type=search]')
             .type('jjdfjljslfasljfj')
             .type('{enter}')
-        cy.get('.MuiTableBody-root').children().should('have.length', 0)
+
+        cy.get('.MuiTableBody-root')
+            .children()
+            .should('have.length', 0)
     })
 })
