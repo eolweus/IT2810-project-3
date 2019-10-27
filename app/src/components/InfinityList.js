@@ -122,10 +122,8 @@ class InfinityList extends Component {
 
     handlePopup = (e, imageurl) => {
         const {PopupStore} = this.props;
-        console.log(imageurl)
         PopupStore.updatePopup(imageurl)
         PopupStore.showPopup()
-        console.log('handlePopup')
     }
 
     EnhancedTableHead(props) {
