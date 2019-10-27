@@ -1,5 +1,5 @@
 import React from 'react';
-import { observer, inject } from "mobx-react";
+import {inject, observer} from "mobx-react";
 import {Button} from '@material-ui/core'
 import './popup.css';
 
@@ -12,7 +12,7 @@ class Popup extends React.Component {
     }
 
     render() {
-        const {PopupStore} = this.props
+        const {PopupStore} = this.props;
 
         return (
             <div className='popup'>
