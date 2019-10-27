@@ -49,6 +49,7 @@ class SongStore {
                 song = song._source;
                 this.songData.push({
                     id: song.id,
+                    url: song.external_urls.spotify,
                     imageURL: song.album.images[1].url,
                     name: song.name,
                     artist: song.artists[0].name,
@@ -62,7 +63,6 @@ class SongStore {
             ListStore.addRows(this.songData);
             ListStore.setTotalHits(data.body.hits.total.value);
             ListStore.setPage(0);
-            ListStore.setHighestPageToZeroYo();
         });
     };
 
@@ -123,10 +123,6 @@ class SongStore {
             });
         }
     };
-
-
-
-
 
 }
 

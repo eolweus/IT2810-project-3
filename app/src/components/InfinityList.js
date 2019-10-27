@@ -120,10 +120,10 @@ class InfinityList extends Component {
 
     };
 
-    handlePopup = e => {
+    handlePopup = (e, imageurl) => {
         const {PopupStore} = this.props;
-        console.log(e.target)
-        PopupStore.updatePopup("hey", "you", "big", "dick")
+        console.log(imageurl)
+        PopupStore.updatePopup(imageurl)
         PopupStore.showPopup()
         console.log('handlePopup')
     }
@@ -209,9 +209,18 @@ class InfinityList extends Component {
                                                 hover
                                                 key={row.name}
                                                 id={row.id}
-                                                onClick={e => this.handlePopup(e)}
                                             >
-                                                <TableCell component="th" id={row.id} scope="row">
+                                                <TableCell
+                                                    component="th"
+                                                    id={row.id}
+                                                    imageurl={row.imageURL}
+                                                    name={row.name}
+                                                    url={row.url}
+                                                    album={row.album}
+                                                    artist={row.artist}
+                                                    scope="row"
+                                                    onClick={e => this.handlePopup(e, row.imageURL)}
+                                                >
                                                     {row.name}
                                                 </TableCell>
                                                 <TableCell id={row.id} align="left">{row.artist}</TableCell>

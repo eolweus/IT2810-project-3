@@ -11,18 +11,11 @@ class PopupStore {
 
     constructor() {
         this.show = false
-        this.image = "https://images.genius.com/acc119aa004ef3bb9fef2f340122a552.1000x1000x1.jpg"
-        this.album = ""
-        this.artist = ""
-        this.name = "mangetsu"
-        this.url = ""
+        this.image = "https://i.scdn.co/image/ab67616d00001e021611cadc919496a29d038213"
     }
 
-    @action updatePopup = (name, artist, album, url) => {
-        this.name = name
-        this.artist = artist
-        this.album = album
-        this.url = url
+    @action updatePopup = (imageURL) => {
+        this.image= imageURL
     }
 
     @action togglePopup() {

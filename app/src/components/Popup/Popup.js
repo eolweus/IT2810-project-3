@@ -9,9 +9,6 @@ import './popup.css';
 class Popup extends React.Component {
 
     handleClick() {
-        // const {PopupStore} = this.props
-        // PopupStore.hidePopup()
-        console.log('You clicked the "close me" button')
     }
 
     render() {
@@ -20,10 +17,9 @@ class Popup extends React.Component {
         return (
             <div className='popup'>
                 <div className='popup\_inner'>
-                    <h1>{PopupStore.name}</h1>
                     <img src={PopupStore.image} id="popup_image"></img>
                     <div>
-                        <Button variant="contained" onClick={e => PopupStore.hidePopup()}>close me</Button>
+                        <Button variant="contained" onClick={e => PopupStore.hidePopup()}>close</Button>
                     </div>
                 </div>
             </div>
