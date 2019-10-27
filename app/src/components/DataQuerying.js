@@ -53,7 +53,7 @@ class DataQuerying extends Component {
                         <Checkbox
                             checked={this.state.checkedFilterHasReviews}
                             onChange={(ev) => {
-                                this.setState({checkedFilterHasReviews: !this.state.checkedFilterHasReviews})
+                                this.setState({checkedFilterHasReviews: !this.state.checkedFilterHasReviews});
                                 if (this.state.checkedFilterHasReviews) {
                                     QueryStore.setFilter(null, null);
                                 } else {

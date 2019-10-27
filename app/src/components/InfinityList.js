@@ -12,9 +12,7 @@ import {
 } from '@material-ui/core';
 import React, {Component} from "react";
 import Rating from '@material-ui/lab/Rating';
-import {observer, inject} from "mobx-react";
-
-import Popup from './Popup/Popup'
+import {inject, observer} from "mobx-react";
 
 
 const theme = createMuiTheme({
@@ -122,9 +120,9 @@ class InfinityList extends Component {
 
     handlePopup = (e, imageurl) => {
         const {PopupStore} = this.props;
-        PopupStore.updatePopup(imageurl)
+        PopupStore.updatePopup(imageurl);
         PopupStore.showPopup()
-    }
+    };
 
     EnhancedTableHead(props) {
         const {classes, order, orderBy, rowCount, onRequestSort} = props;
@@ -224,7 +222,7 @@ class InfinityList extends Component {
                                                 <TableCell id={row.id} align="left">{row.artist}</TableCell>
                                                 <TableCell id={row.id} align="left">{row.album}</TableCell>
                                                 <TableCell id={row.id} align="right">{row.duration}</TableCell>
-                                                <TableCell  align="right" id={row.id}>
+                                                <TableCell align="right" id={row.id}>
                                                     <Rating name={row.id} value={row.rating} precision={1} size="small"
                                                             onChange={e => this.handleChangeRating(e)}
                                                     />
