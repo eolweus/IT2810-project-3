@@ -1,13 +1,13 @@
-import { observable, action, computed } from "mobx";
+import { observable, action } from "mobx";
 import SongStore from './SongStore';
 class QueryStore {
-    @observable searchString;
-    @observable limit;
-    @observable offset;
-    @observable filterBy;
-    @observable greaterThan;
-    @observable sortBy;
-    @observable sortOrder;
+    @observable searchString = null;
+    @observable limit = null;
+    @observable offset = null;
+    @observable filterBy = null;
+    @observable greaterThan = null;
+    @observable sortBy = null;
+    @observable sortOrder = null;
 
     @action setSearchString = (string) => {
         this.searchString = string;
@@ -16,26 +16,28 @@ class QueryStore {
 
     @action setLimit = (limit) => {
         this.limit = limit;
+        SongStore.searchForSongAsync();
+
     }
     @action setOffset = (offset) => {
         this.offset = offset;
+        console.log("QueryStore offset: " + offset);
+        SongStore.searchForSongWithoutListWipeAsync();
     }
     @action setFilter = (filterBy, greaterThan) => {
         this.filterBy = filterBy;
         this.greaterThan = greaterThan;
+        SongStore.searchForSongAsync();
     }
 
     @action setSort = (sortBy, sortOrder) => {
         this.sortBy = sortBy;
         this.sortOrder = sortOrder;
-    }
+        SongStore.searchForSongAsync();
+    };
 
-   /* @computed getQueryString() {
-        return [this.searchString, this.limit, this.offset, this.filterBy, this.greaterThan, this.sortBy, this.sortOrder];
-    }
-*/
     @action clearFilter = () => {
-        this.setSearchString(null)
+        this.setSearchString(null);
         this.setLimit(null);
         this.setOffset(null);
         this.setFilter(null, null);

@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {inject, observer} from "mobx-react";
 import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
-import {Container, Grid, CssBaseline, Typography, Paper, AppBar, ListItem, List, OutlinedInput, TextField, Button} from "@material-ui/core";
+import {Container, Grid, CssBaseline, Typography, Paper, AppBar, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary} from "@material-ui/core";
 import InfinityList from "./components/InfinityList";
 import WordCloud from "./components/WordCloud";
 import DataQuerying from "./components/DataQuerying";
+import Popup from './components/Popup/Popup'
 
 const theme = createMuiTheme({
   palette: {
@@ -66,12 +67,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-@inject("SongStore")
+@inject("SongStore", "PopupStore")
 @observer
 class App extends Component{
 
   render() {
-    const {SongStore} = this.props;
+    const {PopupStore} = this.props;
     const classes = useStyles;
 
     return (
@@ -82,7 +83,7 @@ class App extends Component{
             <Typography style={{ backgroundColor: theme.palette.primary.light, minHeight: '100vh'}}>
               <AppBar position="static" style={{backgroundColor: theme.palette.primary.dark, minHeight: '8vh'}}>
                 <Typography variant="h3" className={classes.title} align="center">
-                  Mind Blowing Playlist Display
+                  Mind Blowing Spotify Data Display
                 </Typography>
                 <Typography variant="subtitle2" align="center">
                   brought to you by Group 67
@@ -95,7 +96,7 @@ class App extends Component{
                     Amazing list of Infinity*
                   </Typography>
                   <Typography className={classes.footnote} variant="subtitle2">
-                    *not actually infinite at all
+                    *not actually infinite at all, but pretty neat nonetheless
                   </Typography>
                   <Typography className={classes.container}>
                     <DataQuerying/>
@@ -107,6 +108,7 @@ class App extends Component{
                     justify="center"
                   >
                     <Paper elevation={10}>
+                        {PopupStore.show ? <Popup/> : null}
                         <InfinityList/>
                     </Paper>
                   </Grid>
@@ -118,9 +120,19 @@ class App extends Component{
                   <Typography variant="h4" className={classes.subtitle}>
                     Amazingly Advanced Viewing Experience
                   </Typography>
-                  <Typography className={classes.container}>
-                    <WordCloud/>
-                  </Typography>
+                    <ExpansionPanel>
+                        <ExpansionPanelSummary
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            <Typography variant="subtitle1" className={classes.subtitle}>Click me to render a pretty, but resource hogging, Word Cloud!</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                          <Typography className={classes.container}>
+                            <WordCloud/>
+                          </Typography>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
                 </Typography>
               </Paper>
             </Typography>

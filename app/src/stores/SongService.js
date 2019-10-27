@@ -1,4 +1,4 @@
-const webApiUrl = "http://localhost:5000/api/tracks";
+const webApiUrl = "http://it2810-67.idi.ntnu.no:5000/api/tracks";
 
 class SongService {
     get = async (urlParams) => {
@@ -9,7 +9,7 @@ class SongService {
         const response = await fetch(request);
         return response.json();
     };
-    post = async (model) => {
+    post = async (model, urlParams) => {
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
         let options = {
@@ -17,7 +17,7 @@ class SongService {
             headers,
             body: JSON.stringify(model)
         };
-        const request = new Request(webApiUrl, options);
+        const request = new Request(webApiUrl + "/"  + urlParams, options);
         const response = await fetch(request);
         return response;
     };

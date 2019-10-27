@@ -1,5 +1,4 @@
 import ReactWordCloud from 'react-wordcloud';
-import randomColor from 'randomcolor';
 import React, {Component} from 'react';
 import {observer, inject} from "mobx-react";
 
@@ -7,9 +6,9 @@ import {observer, inject} from "mobx-react";
 @observer
 class WordCloud extends Component {
     componentDidMount() {
-        setInterval(() => {
-            this.forceUpdate();
-        }, 3000);
+
+        this.forceUpdate();
+
     }
 
     render() {
