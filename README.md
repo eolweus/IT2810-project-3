@@ -88,7 +88,7 @@ For testing, we decided to go with two different approaches for the frontend and
 1. Simply navigate to the server folder and run `npm run-script test-it`, NOTE, this will remove all reviews from the database as it "resets" the database. Ideally we would make another instance of elasticsearch for this test but we had some problems running docker images on different ports.
 
 ### Testing with cypress
-For testing DOM functionality we decided to go with cypress. Cypress proved easy to set up, and easy to use. The tests we have written focus on changing up the selection of songs displayed.
+For testing DOM functionality we decided to go with cypress. Cypress proved easy to set up, and easy to use. The tests we have written test search, and various DOM elements. The test file should be commented quite well in terms of explaining what is tested.
 
 ### How to run cypress tests locally
-To set up the cypress testing environment locally navigate to the app folder and run `yarn run cypress open`. After opening the cypress testing tool, run all the tests in the dom_tests folder.
+To set up the cypress test environment locally, first make sure you have the app running on localhost:3000, and that the server and database are up and running. Then navigate to the app folder and run `yarn run cypress open`. After opening the cypress testing tool, run `content_spec.js` in the dom_tests folder. The tests should run all by themselves now. If the tests run very slowly, or fail, it might help to disable the wordcloud. An easy way to do this is to go to `App.js` and comment out `<Wordcloud/>` on line 132.
