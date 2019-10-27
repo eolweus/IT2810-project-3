@@ -61,7 +61,7 @@ class DataQuerying extends Component {
                                 }
                             }}
                             value="filterHasReview"
-                            color="secondary"
+                            color={theme.palette.secondary.main}
                         />
                     }
                     label="Has high user reviews"
