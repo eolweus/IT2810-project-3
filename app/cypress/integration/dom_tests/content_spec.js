@@ -2,10 +2,6 @@
 
 describe('Content exists on page', () => {
 
-    // beforeEach(() => {
-    //     cy.visit('http://localhost:3000/')
-    // })
-
     it('Page has content initially', () => {
         cy.visit('http://localhost:3000/')
 
