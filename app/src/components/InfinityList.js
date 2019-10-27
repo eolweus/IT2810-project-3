@@ -208,6 +208,7 @@ class InfinityList extends Component {
                                             <TableRow
                                                 hover
                                                 key={row.name}
+                                                id={row.id}
                                                 onClick={e => this.handlePopup(e)}
                                             >
                                                 <TableCell component="th" id={row.id} scope="row">
