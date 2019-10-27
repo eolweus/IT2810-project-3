@@ -6,6 +6,7 @@ class Queries {
     constructor() {
 
     }
+
     // Returns a specific track based on the trackId
     getById(trackId) {
         return client.get({
@@ -15,61 +16,77 @@ class Queries {
         });
     }
 
+
     // Searches among all songs on songname, artistname and albumname fields with the user input
     // Results will be searched by relevance.
-    search(userInput, pageSize, fromElement) {
-        return client.search({
+    search(userInput, pageSize, fromElement, filterBy, greaterThan) {
+        let options = {
             index: 'tracks',
             from: fromElement, //From and size is for pagination
             size: pageSize,
             body: {
                 "query": {
-                    "bool": {
-                        "must": {
-                            "multi_match": {
-                                "query": userInput,
-                                "fields": [//Fields that are searched
-                                    "name",
-                                    "artists.name",
-                                    "album.name"
-                                ]
-                            }
-                        }
-                    }
+                    "bool": {}
                 }
             }
-        });
+
+        };
+        if (userInput != null) {
+            options.body.query.bool['must'] = {
+                "multi_match": {
+                    "query": userInput,
+                    "fields": [//Fields that are searched
+                        "name",
+                        "artists.name",
+                        "album.name"
+                    ]
+                }
+
+            }
+        }
+
+        if (filterBy !== 'no') {
+            options.body.query.bool['filter'] = {'range': {}};
+            options.body.query.bool.filter.range[filterBy] = {'gte': greaterThan};
+        }
+        return client.search(options);
     }
 
     /*
         *@Param {String} userInput - string with the search input
         *@Param {String} sortBy - string describing what to sort some valid inputs are 'popularity', 'album.total_tracks'
         *,'album.release_date', 'duration_ms', 'name.keyword', 'album.name.keyword' */
-    searchWithSorting(userInput, pageSize, fromElement, sortBy, sortAsc) {
-        let searchObject = {
+    searchWithSorting(userInput, pageSize, fromElement, filterBy, greaterThan, sortBy, sortAsc) {
+        console.log("Search with sorting ran: " + sortBy);
+        let options = {
             index: 'tracks',
-            from: fromElement, //From is the start element
-            size: pageSize, //size is the max amount of hits that are returned
+            from: fromElement, //From and size is for pagination
+            size: pageSize,
             body: {
-                'sort': {},
+                "sort":{},
                 "query": {
-                    "bool": {
-                        "must": {
-                            "multi_match": {
-                                "query": userInput,
-                                "fields": [//Fields that are searched
-                                    "name",
-                                    "artists.name",
-                                    "album.name"
-                                ]
-                            }
-                        }
-                    }
+                    "bool": {}
                 }
             }
         };
-        searchObject.body.sort[sortBy] = {'order': (sortAsc ? 'asc' : 'desc')};
-        return client.search(searchObject);
+        if (userInput != null) {
+            options.body.query.bool['must'] = {
+                "multi_match": {
+                    "query": userInput,
+                    "fields": [//Fields that are searched
+                        "name",
+                        "artists.name",
+                        "album.name"
+                    ]
+                }
+            }
+        }
+        if (filterBy !== 'no') {
+            options.body.query.bool['filter'] = {'range': {}};
+            options.body.query.bool.filter.range[filterBy] = {'gte': greaterThan};
+        }
+        options.body.sort[sortBy] = {'order': (sortAsc ? 'asc' : 'desc')};
+        return client.search(options);
     }
 
     // Updates the rating of a song using the user specified score.
@@ -85,7 +102,7 @@ class Queries {
             'body': {
                 "script": {
                     "source":
-                        "ctx._source.total_user_reviews += 1; ctx._source.cumulated_user_review_score += params.review_score", //This script will run on the database
+                        "ctx._source.total_user_reviews += 1; ctx._source.cumulated_user_review_score += params.review_score; ctx._source.average_user_rating = (float)ctx._source.cumulated_user_review_score / (float)ctx._source.total_user_reviews", //This script will run on the database
                     "lang": "painless", //painless is a language developed for elasticsearch
                     "params": {// parameters passed to the script
                         "review_score": score
