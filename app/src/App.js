@@ -73,6 +73,7 @@ class App extends Component{
 
   render() {
     const {PopupStore} = this.props;
+    const {SongStore} = this.props;
     const classes = useStyles;
 
     return (
@@ -120,7 +121,7 @@ class App extends Component{
                   <Typography variant="h4" className={classes.subtitle}>
                     Amazingly Advanced Viewing Experience
                   </Typography>
-                    <ExpansionPanel>
+                    <ExpansionPanel onClick={SongStore.setRender}>
                         <ExpansionPanelSummary
                             aria-controls="panel1a-content"
                             id="panel1a-header"

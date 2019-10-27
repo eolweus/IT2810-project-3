@@ -6,6 +6,7 @@ import QueryStore from './QueryStore';
 class SongStore {
     @observable songData =[];
     @observable wordsForCloud = [];
+    @observable renderCloud = false;
     @observable status;
     @observable initialQuery;
 
@@ -18,6 +19,10 @@ class SongStore {
 
     @computed get wordCloud() {
         return this.wordsForCloud;
+    }
+
+    @action setRender = () => {
+        this.renderCloud = (this.renderCloud ? false : true);
     }
 
     @action clearSongData = () => {

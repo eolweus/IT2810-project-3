@@ -6,16 +6,20 @@ import {observer, inject} from "mobx-react";
 @observer
 class WordCloud extends Component {
     componentDidMount() {
-
         this.forceUpdate();
-
     }
 
     render() {
         const {SongStore} = this.props;
-        return (
-            <ReactWordCloud words={SongStore.wordCloud}/>
-        );
+        if (SongStore.renderCloud === true) {
+            return (
+                <ReactWordCloud words={SongStore.wordCloud}/>
+            );
+        } else {
+            return (
+                <div></div>
+            )
+        }
     }
 }
 
