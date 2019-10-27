@@ -85,7 +85,7 @@ For testing, we decided to go with two different approaches for the frontend and
 #### How to run integration testing
 ##### Make sure that you have elasticsearch running on localhost:9200 and server.js running on localhost:5000, as it should be after finishing the user guide to run locally in this doc.
 
-1. Simply navigate to the server folder and run `npm run-script test-it`, NOTE, this will remove all reviews from the server as it "resets" the database. Ideally we would make another instance of elasticsearch for this test but we had some problems running docker images on different ports.
+1. Simply navigate to the server folder and run `npm run-script test-it`, NOTE, this will remove all reviews from the database as it "resets" the database. Ideally we would make another instance of elasticsearch for this test but we had some problems running docker images on different ports.
 
 ### Testing with cypress
 For testing DOM functionality we decided to go with cypress. Cypress proved easy to set up, and easy to use. The tests we have written focus on changing up the selection of songs displayed.
