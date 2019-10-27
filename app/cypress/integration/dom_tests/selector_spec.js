@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Test page', () => {
+describe('Content exists on page', () => {
     it('Page has selection', () => {
         cy.visit('http://localhost:3000/')
 
@@ -27,7 +27,7 @@ describe('Test page', () => {
         cy.get('.MuiSelect-root').click()
         cy.get('.MuiPaper-root > .MuiList-root')
         cy.contains(25).click()
-        cy.get('.MuiTableBody-root').children().should('have.length', 20)
+        cy.get('.MuiTableBody-root').children().should('have.length', 25)
     })
 
     it('Search works', () => {
@@ -44,6 +44,8 @@ describe('Test page', () => {
     })
 
     it('search will not return anything if there are no matches', () => {
+
+        // Tests if anything is shown with random garbage input
         cy.visit('http://localhost:3000/')
         cy.get('input[type=search]')
             .type('jjdfjljslfasljfj')
