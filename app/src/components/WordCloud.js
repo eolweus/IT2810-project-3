@@ -1,5 +1,4 @@
 import ReactWordCloud from 'react-wordcloud';
-import randomColor from 'randomcolor';
 import React, {Component} from 'react';
 import {observer, inject} from "mobx-react";
 

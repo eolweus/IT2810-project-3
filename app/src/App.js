@@ -72,7 +72,6 @@ const useStyles = makeStyles(theme => ({
 class App extends Component{
 
   render() {
-    const {SongStore} = this.props;
     const {PopupStore} = this.props;
     const classes = useStyles;
 

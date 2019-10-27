@@ -1,4 +1,4 @@
-import { observable, action, computed } from "mobx";
+import { observable, action } from "mobx";
 import SongStore from './SongStore';
 class QueryStore {
     @observable searchString = null;
@@ -34,12 +34,8 @@ class QueryStore {
         this.sortBy = sortBy;
         this.sortOrder = sortOrder;
         SongStore.searchForSongAsync();
-    }
+    };
 
-   /* @computed getQueryString() {
-        return [this.searchString, this.limit, this.offset, this.filterBy, this.greaterThan, this.sortBy, this.sortOrder];
-    }
-*/
     @action clearFilter = () => {
         this.setSearchString(null);
         this.setLimit(null);
