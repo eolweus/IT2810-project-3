@@ -15,8 +15,7 @@ class WordCloud extends Component {
     render() {
         const {SongStore} = this.props;
         return (
-            //<ReactWordCloud words={SongStore.wordCloud}/>
-            <p>hei</p>
+            <ReactWordCloud words={SongStore.wordCloud}/>
         );
     }
 }
