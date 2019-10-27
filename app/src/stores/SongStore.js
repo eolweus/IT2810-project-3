@@ -2,6 +2,7 @@ import {observable, action, computed, async, runInAction} from "mobx";
 import SongService from "./SongService";
 import ListStore from './ListStore';
 import QueryStore from './QueryStore';
+import {List} from "@material-ui/core";
 
 class SongStore {
     @observable songData =[];
@@ -48,6 +49,7 @@ class SongStore {
                 song = song._source;
                 this.songData.push({
                     id: song.id,
+                    imageURL: song.album.images[1].url,
                     name: song.name,
                     artist: song.artists[0].name,
                     album: song.album.name,
@@ -60,6 +62,7 @@ class SongStore {
             ListStore.addRows(this.songData);
             ListStore.setTotalHits(data.body.hits.total.value);
             ListStore.setPage(0);
+            ListStore.setHighestPageToZeroYo();
         });
     };
 
@@ -84,6 +87,7 @@ class SongStore {
                 this.songData.push({
                     name: song.name,
                     artist: song.artists[0].name,
+                    imageURL: song.album.images[1].url,
                     album: song.album.name,
                     duration: Math.floor(song.duration_ms / 60000),
                     rating: Math.round(song.cumulated_user_review_score / song.total_user_reviews)});
