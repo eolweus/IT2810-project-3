@@ -72,9 +72,6 @@ app.post('/api/tracks/:trackId', (req, res) => {
 
 });
 
-//TODO lage filtreringsfunksjon
-
-//TODO Denne må endres. Bruker 5000 midlertidig for å ha noe å kjøre lokalt
 const port = 5000;
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
