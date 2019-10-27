@@ -82,7 +82,7 @@ The token is used by the `SpotifyPlaylistScraper.js` to iterate through all the 
 For testing, we decided to go with two different approaches for the frontend and backend. In the frontend, and for E2E testing, we used cypress. For the Backend we used integration testing with Jest.
 
 ### Integration testing with jest
-#### How to run integration testing
+#### How to run integration  and unit testing
 ##### Make sure that you have elasticsearch running on localhost:9200 and server.js running on localhost:5000, as it should be after finishing the user guide to run locally in this doc.
 
 1. Simply navigate to the server folder and run `npm run-script test-it`, NOTE, this will remove all reviews from the database as it "resets" the database. Ideally we would make another instance of elasticsearch for this test but we had some problems running docker images on different ports.
